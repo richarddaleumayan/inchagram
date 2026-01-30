@@ -6,6 +6,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth';
+import usersRoutes from './routes/users';
 import photoRoutes from './routes/photos';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 
@@ -23,6 +24,7 @@ app.get('/health', (_req, res) => {
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/photos', photoRoutes);
 
 // Error handling
