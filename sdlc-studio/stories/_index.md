@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 21 |
+| Draft | 20 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 5 |
+| Done | 6 |
 | **Total** | **26** |
 
 ---
@@ -68,7 +68,7 @@
 
 | ID | Title | Status | Points | Persona |
 |----|-------|--------|--------|---------|
-| US0016 | Like/Unlike Photo API Endpoints | Draft | 2 | All |
+| [US0016](US0016-like-unlike-photo-api.md) | Like/Unlike Photo API Endpoints | Done | 2 | All |
 | [US0017](US0017-like-model.md) | Like Model and Denormalized Count Logic | Done | 2 | Internal |
 | US0018 | View Photo Likes List | Draft | 2 | Alex (Photographer) |
 | US0019 | Follow/Unfollow User API Endpoints | Draft | 2 | Taylor (Curator) |
@@ -115,7 +115,7 @@
 | [US0013](US0013-file-validation.md) | File Validation | EP0003 | Ethel | 2 | Done |
 | US0014 | Photo Deletion | EP0003 | Ethel | 2 | Draft |
 | US0015 | Photo Upload Frontend | EP0003 | Ethel | 2 | Draft |
-| US0016 | Like/Unlike Photo API | EP0004 | Neildren | 2 | Draft |
+| [US0016](US0016-like-unlike-photo-api.md) | Like/Unlike Photo API | EP0004 | Neildren | 2 | Done |
 | [US0017](US0017-like-model.md) | Like Model and Count Logic | EP0004 | Neildren | 2 | Done |
 | US0018 | View Photo Likes List | EP0004 | Neildren | 2 | Draft |
 | US0019 | Follow/Unfollow User API | EP0004 | Neildren | 2 | Draft |
