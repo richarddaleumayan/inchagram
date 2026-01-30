@@ -6,7 +6,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User from '../models/User';
-import { isValidEmail, isValidUsername, isValidPassword } from '../utils/validation';
 import { generateToken } from '../services/jwtService';
 import { AuthRequest } from '../middleware/authMiddleware';
 
@@ -18,85 +17,8 @@ const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS || '10', 10);
  */
 export async function register(req: Request, res: Response): Promise<void> {
   try {
+    // Input validation handled by middleware (validateRequired, validateEmail, validateUsername, validatePassword)
     const { email, username, password } = req.body;
-
-    // Validate required fields
-    if (!email) {
-      res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Email is required',
-          details: { field: 'email', issue: 'Missing required field' }
-        }
-      });
-      return;
-    }
-
-    if (!username) {
-      res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Username is required',
-          details: { field: 'username', issue: 'Missing required field' }
-        }
-      });
-      return;
-    }
-
-    if (!password) {
-      res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Password is required',
-          details: { field: 'password', issue: 'Missing required field' }
-        }
-      });
-      return;
-    }
-
-    // Validate email format
-    if (!isValidEmail(email)) {
-      res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Email format is invalid',
-          details: { field: 'email', issue: 'Invalid email format' }
-        }
-      });
-      return;
-    }
-
-    // Validate username format
-    const usernameValidation = isValidUsername(username);
-    if (!usernameValidation.isValid) {
-      res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: usernameValidation.error,
-          details: { field: 'username', issue: usernameValidation.error }
-        }
-      });
-      return;
-    }
-
-    // Validate password strength
-    const passwordValidation = isValidPassword(password);
-    if (!passwordValidation.isValid) {
-      res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: passwordValidation.error,
-          details: { field: 'password', issue: passwordValidation.error }
-        }
-      });
-      return;
-    }
 
     // Check for duplicate email
     const existingEmail = await User.findOne({ email: email.toLowerCase().trim() });

@@ -28,7 +28,7 @@
 | [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | Done | 3 | Richard |
 | [US0002](US0002-user-login-jwt.md) | User Login API with JWT Token Generation | Done | 3 | Richard |
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | Done | 2 | Richard |
-| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | Draft | 2 | Richard |
+| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | Done | 2 | Richard |
 | [US0005](US0005-get-current-user-endpoint.md) | Get Current User Endpoint (/auth/me) | Done | 3 | Richard |
 
 ---
@@ -103,7 +103,7 @@
 | [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | EP0001 | Richard | 3 | Done |
 | [US0002](US0002-user-login-jwt.md) | User Login API with JWT | EP0001 | Richard | 3 | Done |
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | EP0001 | Richard | 2 | Done |
-| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | EP0001 | Richard | 2 | Draft |
+| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | EP0001 | Richard | 2 | Done |
 | [US0005](US0005-get-current-user-endpoint.md) | Get Current User Endpoint | EP0001 | Richard | 3 | Done |
 | [US0006](US0006-view-user-profile-api.md) | View User Profile API | EP0002 | Mark | 2 | Done |
 | US0007 | Profile Photo Grid Component | EP0002 | Mark | 3 | Draft |
