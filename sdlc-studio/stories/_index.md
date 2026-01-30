@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 22 |
+| Draft | 21 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 4 |
+| Done | 5 |
 | **Total** | **26** |
 
 ---
