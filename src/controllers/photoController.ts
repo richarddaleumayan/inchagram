@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import Photo from '../models/Photo';
 import { validatePhotoFile } from '../utils/validation';
 import { uploadToS3, generateS3Key } from '../services/s3Service';
+import { AuthRequest } from '../middleware/authMiddleware';
 
 /**
  * Upload photo
@@ -14,7 +15,7 @@ import { uploadToS3, generateS3Key } from '../services/s3Service';
  * @param req Express request with file upload
  * @param res Express response
  */
-export async function uploadPhoto(req: Request, res: Response): Promise<void> {
+export async function uploadPhoto(req: AuthRequest, res: Response): Promise<void> {
   try {
     // Check if file exists
     if (!req.file) {
@@ -62,7 +63,7 @@ export async function uploadPhoto(req: Request, res: Response): Promise<void> {
     }
 
     // Get authenticated user ID from JWT middleware
-    const userId = (req as Express.Request & { user: { userId: string } }).user.userId;
+    const userId = req.user!.userId;
 
     // Generate S3 key
     const s3Key = generateS3Key(userId, req.file.mimetype);
