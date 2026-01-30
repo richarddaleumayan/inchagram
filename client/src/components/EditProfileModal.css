@@ -1,58 +1,73 @@
 /**
  * EditProfileModal Component Styles
  * Story: US0008 - Edit Profile API and UI
+ * Uses design system CSS variables for theming
  */
 
-/* Modal Container */
+/* ============================================
+   MODAL CONTAINER
+   ============================================ */
+
 .edit-profile-modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1000;
+  z-index: var(--z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--spacing-lg);
 }
 
-/* Overlay */
+/* ============================================
+   OVERLAY
+   ============================================ */
+
 .edit-profile-modal__overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background-color: var(--overlay);
+  backdrop-filter: blur(2px);
 }
 
-/* Content */
+/* ============================================
+   CONTENT
+   ============================================ */
+
 .edit-profile-modal__content {
   position: relative;
-  background: white;
-  border-radius: 12px;
+  background-color: var(--bg-elevated);
+  border-radius: var(--radius-lg);
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-color);
 }
 
-/* Header */
+/* ============================================
+   HEADER
+   ============================================ */
+
 .edit-profile-modal__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
-  border-bottom: 1px solid #dbdbdb;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .edit-profile-modal__header h2 {
   margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #262626;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .edit-profile-modal__close {
@@ -61,58 +76,69 @@
   font-size: 32px;
   line-height: 1;
   cursor: pointer;
-  color: #8e8e8e;
+  color: var(--text-tertiary);
   padding: 0;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
+  transition: color 0.2s ease;
+  border-radius: var(--radius-sm);
 }
 
 .edit-profile-modal__close:hover {
-  color: #262626;
+  color: var(--text-primary);
+  background-color: var(--hover-bg);
 }
 
-/* Form */
+/* ============================================
+   FORM
+   ============================================ */
+
 .edit-profile-modal__form {
-  padding: 24px;
+  padding: var(--spacing-xl);
 }
 
-/* Field */
+/* ============================================
+   FIELD
+   ============================================ */
+
 .edit-profile-modal__field {
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .edit-profile-modal__label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #262626;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .edit-profile-modal__input,
 .edit-profile-modal__textarea {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #dbdbdb;
-  border-radius: 6px;
-  font-size: 14px;
-  font-family: inherit;
-  transition: border-color 0.2s;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .edit-profile-modal__input:focus,
 .edit-profile-modal__textarea:focus {
   outline: none;
-  border-color: #262626;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-light);
 }
 
 .edit-profile-modal__input--error,
 .edit-profile-modal__textarea--error {
-  border-color: #ed4956;
+  border-color: var(--error);
 }
 
 .edit-profile-modal__textarea {
@@ -120,21 +146,25 @@
   min-height: 80px;
 }
 
-/* Profile Picture */
+/* ============================================
+   PROFILE PICTURE
+   ============================================ */
+
 .edit-profile-modal__picture-container {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
 .edit-profile-modal__picture-preview {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   overflow: hidden;
-  border: 1px solid #dbdbdb;
-  background: #fafafa;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
   flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
 }
 
 .edit-profile-modal__picture-preview img {
@@ -150,45 +180,54 @@
   align-items: center;
   justify-content: center;
   font-size: 32px;
-  color: #8e8e8e;
-  background: #fafafa;
+  color: var(--text-tertiary);
+  background-color: var(--bg-secondary);
 }
 
 .edit-profile-modal__hint {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #8e8e8e;
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
   margin-bottom: 0;
 }
 
-/* Character Count */
+/* ============================================
+   CHARACTER COUNT
+   ============================================ */
+
 .edit-profile-modal__char-count {
-  margin-top: 4px;
-  font-size: 12px;
-  color: #8e8e8e;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
   text-align: right;
 }
 
 .edit-profile-modal__char-count--error {
-  color: #ed4956;
-  font-weight: 600;
+  color: var(--error);
+  font-weight: var(--font-weight-semibold);
 }
 
-/* Error Message */
+/* ============================================
+   ERROR MESSAGE
+   ============================================ */
+
 .edit-profile-modal__error {
-  margin-bottom: 16px;
-  padding: 12px;
-  background: #ffeef0;
-  border: 1px solid #ed4956;
-  border-radius: 6px;
-  color: #ed4956;
-  font-size: 14px;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--error-light);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-md);
+  color: var(--error);
+  font-size: var(--font-size-sm);
 }
 
-/* Actions */
+/* ============================================
+   ACTIONS
+   ============================================ */
+
 .edit-profile-modal__actions {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing-sm);
   justify-content: flex-end;
 }
 
@@ -196,64 +235,49 @@
   min-width: 80px;
 }
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+/* Mobile (portrait phones) */
+@media (max-width: 640px) {
+  .edit-profile-modal {
+    padding: var(--spacing-md);
+  }
+
   .edit-profile-modal__content {
-    background: #1a1a1a;
+    max-height: 95vh;
   }
 
   .edit-profile-modal__header {
-    border-bottom-color: #262626;
+    padding: var(--spacing-md) var(--spacing-lg);
   }
 
-  .edit-profile-modal__header h2 {
-    color: #fafafa;
-  }
-
-  .edit-profile-modal__close {
-    color: #a8a8a8;
-  }
-
-  .edit-profile-modal__close:hover {
-    color: #fafafa;
-  }
-
-  .edit-profile-modal__label {
-    color: #fafafa;
-  }
-
-  .edit-profile-modal__input,
-  .edit-profile-modal__textarea {
-    background: #262626;
-    border-color: #3a3a3a;
-    color: #fafafa;
-  }
-
-  .edit-profile-modal__input:focus,
-  .edit-profile-modal__textarea:focus {
-    border-color: #fafafa;
-  }
-
-  .edit-profile-modal__char-count {
-    color: #a8a8a8;
-  }
-
-  .edit-profile-modal__error {
-    background: #2d1517;
-    border-color: #ed4956;
+  .edit-profile-modal__form {
+    padding: var(--spacing-lg);
   }
 
   .edit-profile-modal__picture-preview {
-    border-color: #3a3a3a;
-    background: #262626;
+    width: 64px;
+    height: 64px;
   }
 
   .edit-profile-modal__picture-placeholder {
-    background: #262626;
-    color: #a8a8a8;
+    font-size: 24px;
   }
 
-  .edit-profile-modal__hint {
-    color: #a8a8a8;
+  .edit-profile-modal__actions {
+    flex-direction: column-reverse;
+  }
+
+  .edit-profile-modal__actions .btn {
+    width: 100%;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .edit-profile-modal__content {
+    max-width: 450px;
   }
 }

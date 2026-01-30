@@ -1,20 +1,30 @@
 /**
  * PhotoCard Component Styles
  * Story: US0025 - Photo Card Component for Feeds
+ * Uses design system CSS variables for theming
  */
 
 .photo-card {
-  background: white;
-  border: 1px solid #dbdbdb;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-xl);
   max-width: 600px;
   width: 100%;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease;
 }
 
-/* User Header */
+.photo-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   USER HEADER
+   ============================================ */
+
 .photo-card__header {
-  padding: 14px 16px;
+  padding: var(--spacing-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,12 +33,12 @@
 .photo-card__user-info {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-sm);
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s ease;
 }
 
 .photo-card__user-info:hover {
@@ -38,30 +48,33 @@
 .photo-card__avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   object-fit: cover;
 }
 
 .photo-card__avatar--placeholder {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: var(--text-inverse);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
 }
 
 .photo-card__username {
-  font-weight: 600;
-  font-size: 14px;
-  color: #262626;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
 }
 
-/* Photo Image */
+/* ============================================
+   PHOTO IMAGE
+   ============================================ */
+
 .photo-card__image-container {
   width: 100%;
-  background: #fafafa;
+  background-color: var(--bg-secondary);
   position: relative;
 }
 
@@ -72,53 +85,64 @@
   object-fit: cover;
 }
 
-/* Actions Bar */
+/* ============================================
+   ACTIONS BAR
+   ============================================ */
+
 .photo-card__actions {
-  padding: 8px 16px;
+  padding: var(--spacing-sm) var(--spacing-md);
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--spacing-md);
 }
 
-/* Content */
+/* ============================================
+   CONTENT
+   ============================================ */
+
 .photo-card__content {
-  padding: 0 16px 16px;
+  padding: 0 var(--spacing-md) var(--spacing-md);
 }
 
 .photo-card__caption {
-  margin-bottom: 8px;
-  line-height: 1.5;
-  font-size: 14px;
-  color: #262626;
+  margin-bottom: var(--spacing-sm);
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
 }
 
 .photo-card__caption-text {
-  color: #262626;
+  color: var(--text-primary);
 }
 
 .photo-card__more-button {
   background: none;
   border: none;
-  color: #8e8e8e;
+  color: var(--text-tertiary);
   cursor: pointer;
   padding: 0;
-  margin-left: 4px;
-  font-size: 14px;
-  transition: color 0.2s;
+  margin-left: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  transition: color 0.2s ease;
 }
 
 .photo-card__more-button:hover {
-  color: #262626;
+  color: var(--text-secondary);
 }
 
 .photo-card__timestamp {
   display: block;
-  font-size: 12px;
-  color: #8e8e8e;
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Responsive */
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+/* Mobile (portrait phones) */
 @media (max-width: 640px) {
   .photo-card {
     border-radius: 0;
@@ -126,39 +150,31 @@
     border-right: none;
     margin-bottom: 0;
     border-bottom: none;
+    box-shadow: none;
+  }
+
+  .photo-card:hover {
+    box-shadow: none;
   }
 
   .photo-card__header {
-    padding: 12px 16px;
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
   .photo-card__content {
-    padding: 0 16px 12px;
+    padding: 0 var(--spacing-md) var(--spacing-sm);
+  }
+
+  .photo-card__actions {
+    padding: var(--spacing-xs) var(--spacing-md);
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .photo-card {
-    background: #000;
-    border-color: #262626;
-  }
-
-  .photo-card__username,
-  .photo-card__caption-text {
-    color: #fafafa;
-  }
-
-  .photo-card__timestamp,
-  .photo-card__more-button {
-    color: #a8a8a8;
-  }
-
-  .photo-card__more-button:hover {
-    color: #fafafa;
-  }
-
-  .photo-card__image-container {
-    background: #121212;
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .photo-card__header {
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 }
+
+/* Desktop - default styles already optimized */

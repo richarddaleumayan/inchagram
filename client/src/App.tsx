@@ -6,6 +6,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { PhotoUpload } from './components/PhotoUpload';
 import { FeedPage } from './pages/FeedPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { ThemeToggle } from './components/ThemeToggle';
+import './styles/design-system.css';
 import './App.css';
 
 function App() {
@@ -182,32 +184,35 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>inchagram</h1>
-        <nav className="app-nav">
-          <button
-            onClick={() => setActiveView('feed')}
-            className={`btn btn-sm ${activeView === 'feed' ? 'btn-primary' : 'btn-secondary'}`}
-          >
-            Feed
-          </button>
-          <button
-            onClick={() => setActiveView('upload')}
-            className={`btn btn-sm ${activeView === 'upload' ? 'btn-primary' : 'btn-secondary'}`}
-          >
-            Upload
-          </button>
-          {currentUsername && (
+        <div className="app-header-content">
+          <h1 className="app-logo">inchagram</h1>
+          <nav className="app-nav">
             <button
-              onClick={() => navigate(`/profile/${currentUsername}`)}
-              className="btn btn-secondary btn-sm"
+              onClick={() => setActiveView('feed')}
+              className={`btn btn-sm ${activeView === 'feed' ? 'btn-primary' : 'btn-secondary'}`}
             >
-              My Profile
+              Feed
             </button>
-          )}
-          <button onClick={handleLogout} className="btn btn-secondary btn-sm">
-            Log Out
-          </button>
-        </nav>
+            <button
+              onClick={() => setActiveView('upload')}
+              className={`btn btn-sm ${activeView === 'upload' ? 'btn-primary' : 'btn-secondary'}`}
+            >
+              Upload
+            </button>
+            {currentUsername && (
+              <button
+                onClick={() => navigate(`/profile/${currentUsername}`)}
+                className="btn btn-secondary btn-sm"
+              >
+                My Profile
+              </button>
+            )}
+            <ThemeToggle />
+            <button onClick={handleLogout} className="btn btn-secondary btn-sm">
+              Log Out
+            </button>
+          </nav>
+        </div>
       </header>
 
       <main className="app-main">
