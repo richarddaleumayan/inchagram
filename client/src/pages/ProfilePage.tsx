@@ -3,10 +3,12 @@
  * Displays user profile with stats and info
  * Story: US0010 - Profile Page Routing and Navigation
  * Updated: US0007 - Profile Photo Grid Component
+ * Updated: US0008 - Edit Profile API and UI
  */
 
 import { useEffect, useState } from 'react';
 import { PhotoGrid } from '../components/PhotoGrid';
+import { EditProfileModal } from '../components/EditProfileModal';
 import './ProfilePage.css';
 
 interface ProfileData {
@@ -40,6 +42,8 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   useEffect(() => {
     let isActive = true;
@@ -79,6 +83,48 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
       isActive = false;
     };
   }, [username]);
+
+  // Check if viewing own profile
+  useEffect(() => {
+    const checkOwnProfile = async () => {
+      const token = localStorage.getItem('token');
+      if (!token || !profile) {
+        setIsOwnProfile(false);
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/v1/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          setIsOwnProfile(data.data.userId === profile.userId);
+        }
+      } catch (err) {
+        console.error('Failed to check current user:', err);
+        setIsOwnProfile(false);
+      }
+    };
+
+    checkOwnProfile();
+  }, [profile]);
+
+  const handleEditSuccess = () => {
+    // Refetch profile to show updated data
+    const token = localStorage.getItem('token');
+    if (!token || !profile) return;
+
+    fetch(`/api/v1/users/username/${encodeURIComponent(username)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data) {
+          setProfile(data.data);
+        }
+      })
+      .catch(err => console.error('Failed to refresh profile:', err));
+  };
 
   return (
     <div className="profile-page">
@@ -141,6 +187,17 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
                 <p className="profile-display-name">{profile.displayName}</p>
               )}
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
+
+              {/* Edit Profile Button (own profile only) */}
+              {isOwnProfile && (
+                <button
+                  className="btn btn-secondary btn-sm profile-edit-button"
+                  onClick={() => setIsEditModalOpen(true)}
+                  data-testid="edit-profile-button"
+                >
+                  Edit Profile
+                </button>
+              )}
             </div>
 
             {/* Stats */}
@@ -163,6 +220,18 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
           {/* Photo Grid */}
           <PhotoGrid userId={profile.userId} />
         </div>
+      )}
+
+      {/* Edit Profile Modal */}
+      {profile && (
+        <EditProfileModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          currentDisplayName={profile.displayName}
+          currentBio={profile.bio}
+          userId={profile.userId}
+          onSuccess={handleEditSuccess}
+        />
       )}
     </div>
   );

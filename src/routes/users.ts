@@ -4,7 +4,7 @@
  */
 
 import { Router } from 'express';
-import { getUserById, getUserByUsername, getUserPhotos } from '../controllers/profileController';
+import { getUserById, getUserByUsername, getUserPhotos, updateUser } from '../controllers/profileController';
 import { followUser, unfollowUser } from '../controllers/followController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 
@@ -22,6 +22,13 @@ router.get('/username/:username', getUserByUsername);
  * Get user profile by MongoDB ObjectId
  */
 router.get('/:userId', getUserById);
+
+/**
+ * PUT /api/v1/users/:userId
+ * Update user profile (requires authentication, owner only)
+ * Story: US0008 - Edit Profile API and UI
+ */
+router.put('/:userId', authenticateJWT, updateUser);
 
 /**
  * GET /api/v1/users/:userId/photos
