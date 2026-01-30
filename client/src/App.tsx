@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { PhotoUpload } from './components/PhotoUpload';
+import { FeedPage } from './pages/FeedPage';
 import './App.css';
 
 function App() {
@@ -12,10 +13,11 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
+  const [activeView, setActiveView] = useState<'feed' | 'upload'>('feed');
 
   // Check if user is already logged in
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (token) {
       setIsAuthenticated(true);
     }
@@ -38,7 +40,7 @@ function App() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        localStorage.setItem('authToken', data.data.token);
+        localStorage.setItem('token', data.data.token);
         setIsAuthenticated(true);
         setEmail('');
         setPassword('');
@@ -54,7 +56,7 @@ function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
     setIsAuthenticated(false);
   };
 
@@ -116,13 +118,27 @@ function App() {
     <div className="app-container">
       <header className="app-header">
         <h1>inchagram</h1>
-        <button onClick={handleLogout} className="btn btn-secondary btn-sm">
-          Log Out
-        </button>
+        <nav className="app-nav">
+          <button
+            onClick={() => setActiveView('feed')}
+            className={`btn btn-sm ${activeView === 'feed' ? 'btn-primary' : 'btn-secondary'}`}
+          >
+            Feed
+          </button>
+          <button
+            onClick={() => setActiveView('upload')}
+            className={`btn btn-sm ${activeView === 'upload' ? 'btn-primary' : 'btn-secondary'}`}
+          >
+            Upload
+          </button>
+          <button onClick={handleLogout} className="btn btn-secondary btn-sm">
+            Log Out
+          </button>
+        </nav>
       </header>
 
       <main className="app-main">
-        <PhotoUpload />
+        {activeView === 'feed' ? <FeedPage /> : <PhotoUpload />}
       </main>
     </div>
   );

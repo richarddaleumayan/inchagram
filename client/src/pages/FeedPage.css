@@ -1,0 +1,169 @@
+/**
+ * FeedPage Component Styles
+ * Story: US0026 - Feed Page with Infinite Scroll
+ */
+
+.feed-page {
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+/* Tabs */
+.feed-page__tabs {
+  background: white;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.feed-page__tab {
+  background: none;
+  border: none;
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8e8e8e;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s;
+}
+
+.feed-page__tab:hover {
+  color: #262626;
+}
+
+.feed-page__tab--active {
+  color: #262626;
+  border-bottom-color: #262626;
+}
+
+/* Content */
+.feed-page__content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.feed-page__photos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Loading States */
+.feed-page__loading,
+.feed-page__loading-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #8e8e8e;
+}
+
+.feed-page__loading-more {
+  padding: 20px;
+}
+
+.feed-page__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #262626;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+.feed-page__spinner--small {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error State */
+.feed-page__error {
+  text-align: center;
+  padding: 40px 20px;
+  color: #ed4956;
+}
+
+.feed-page__retry {
+  background: #0095f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background 0.2s;
+}
+
+.feed-page__retry:hover {
+  background: #1877f2;
+}
+
+/* Intersection Observer Target */
+.feed-page__observer {
+  height: 20px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .feed-page__content {
+    padding: 0;
+  }
+
+  .feed-page__tabs {
+    position: static;
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .feed-page {
+    background: #000;
+  }
+
+  .feed-page__tabs {
+    background: #000;
+    border-bottom-color: #262626;
+  }
+
+  .feed-page__tab {
+    color: #a8a8a8;
+  }
+
+  .feed-page__tab:hover {
+    color: #fafafa;
+  }
+
+  .feed-page__tab--active {
+    color: #fafafa;
+    border-bottom-color: #fafafa;
+  }
+
+  .feed-page__loading,
+  .feed-page__loading-more {
+    color: #a8a8a8;
+  }
+
+  .feed-page__spinner {
+    border-color: #262626;
+    border-top-color: #fafafa;
+  }
+}
