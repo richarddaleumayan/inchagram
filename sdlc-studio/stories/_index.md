@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 10 |
+| Draft | 6 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 16 |
+| Done | 20 |
 | **Total** | **26** |
 
 ---
@@ -81,16 +81,16 @@
 ---
 
 ### [EP0005: Photo Feeds (Personal & Discovery)](../epics/EP0005-photo-feeds.md)
-**Owner:** Richard (after EP0001) | **Points:** 13 | **Stories:** 5
+**Owner:** Richard (after EP0001) | **Points:** 13 | **Stories:** 6
 
 | ID | Title | Status | Points | Persona |
 |----|-------|--------|--------|---------|
 | [US0023](US0023-personalized-feed-api.md) | Personalized Feed API Endpoint | Done | 3 | All |
 | [US0024](US0024-discovery-feed-api.md) | Discovery Feed API Endpoint | Done | 2 | Taylor (Curator) |
-| US0025 | Photo Card Component for Feeds | Draft | 2 | All |
-| US0026 | Feed Page with Infinite Scroll | Draft | 3 | Morgan (Mindful) |
-| US0027 | Feed Empty State Handling | Draft | 1 | All |
-| US0028 | Feed Query Optimization | Draft | 2 | Internal |
+| [US0025](US0025-photo-card-component.md) | Photo Card Component for Feeds | Done | 2 | All |
+| [US0026](US0026-feed-page-infinite-scroll.md) | Feed Page with Infinite Scroll | Done | 3 | Morgan (Mindful) |
+| [US0027](US0027-feed-empty-state.md) | Feed Empty State Handling | Done | 1 | All |
+| [US0028](US0028-feed-query-optimization.md) | Feed Query Optimization | Done | 2 | Internal |
 
 **Dependencies:** Requires US0012 (Photo model), US0017 (Like model), US0020 (Follow model), US0021 (Like button)
 
@@ -124,10 +124,10 @@
 | US0022 | Follow Button Component | EP0004 | Neildren | 1 | Draft |
 | [US0023](US0023-personalized-feed-api.md) | Personalized Feed API | EP0005 | Richard | 3 | Done |
 | [US0024](US0024-discovery-feed-api.md) | Discovery Feed API | EP0005 | Richard | 2 | Done |
-| US0025 | Photo Card Component | EP0005 | Richard | 2 | Draft |
-| US0026 | Feed Page with Infinite Scroll | EP0005 | Richard | 3 | Draft |
-| US0027 | Feed Empty State | EP0005 | Richard | 1 | Draft |
-| US0028 | Feed Query Optimization | EP0005 | Richard | 2 | Draft |
+| [US0025](US0025-photo-card-component.md) | Photo Card Component | EP0005 | Richard | 2 | Done |
+| [US0026](US0026-feed-page-infinite-scroll.md) | Feed Page with Infinite Scroll | EP0005 | Richard | 3 | Done |
+| [US0027](US0027-feed-empty-state.md) | Feed Empty State | EP0005 | Richard | 1 | Done |
+| [US0028](US0028-feed-query-optimization.md) | Feed Query Optimization | EP0005 | Richard | 2 | Done |
 
 **Total Story Points:** 65
 

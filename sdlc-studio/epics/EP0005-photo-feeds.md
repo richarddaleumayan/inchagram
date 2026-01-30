@@ -199,13 +199,13 @@ const photos = await Photo.find({})
 
 - [x] [US0023: Personalized Feed API Endpoint](../stories/US0023-personalized-feed-api.md) - 3 points - **Done**
 - [x] [US0024: Discovery Feed API Endpoint](../stories/US0024-discovery-feed-api.md) - 2 points - **Done**
-- [ ] US0025: Photo Card Component for Feeds - 2 points
-- [ ] US0026: Feed Page with Infinite Scroll - 3 points
-- [ ] US0027: Feed Empty State Handling - 1 point
-- [ ] US0028: Feed Query Optimization - 2 points
+- [x] [US0025: Photo Card Component for Feeds](../stories/US0025-photo-card-component.md) - 2 points - **Done**
+- [x] [US0026: Feed Page with Infinite Scroll](../stories/US0026-feed-page-infinite-scroll.md) - 3 points - **Done**
+- [x] [US0027: Feed Empty State Handling](../stories/US0027-feed-empty-state.md) - 1 point - **Done**
+- [x] [US0028: Feed Query Optimization](../stories/US0028-feed-query-optimization.md) - 2 points - **Done**
 
 **Total Story Points:** 13
-**Completed:** 5/13 points (38%)
+**Completed:** 13/13 points (100%)
 
 **Note:** Depends on US0011 (Photo model), US0017 (Like model), US0020 (Follow model), US0021 (Like button)
 

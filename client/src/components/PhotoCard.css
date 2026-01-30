@@ -1,0 +1,164 @@
+/**
+ * PhotoCard Component Styles
+ * Story: US0025 - Photo Card Component for Feeds
+ */
+
+.photo-card {
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* User Header */
+.photo-card__header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.photo-card__user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.photo-card__user-info:hover {
+  opacity: 0.7;
+}
+
+.photo-card__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.photo-card__avatar--placeholder {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.photo-card__username {
+  font-weight: 600;
+  font-size: 14px;
+  color: #262626;
+}
+
+/* Photo Image */
+.photo-card__image-container {
+  width: 100%;
+  background: #fafafa;
+  position: relative;
+}
+
+.photo-card__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Actions Bar */
+.photo-card__actions {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Content */
+.photo-card__content {
+  padding: 0 16px 16px;
+}
+
+.photo-card__caption {
+  margin-bottom: 8px;
+  line-height: 1.5;
+  font-size: 14px;
+  color: #262626;
+}
+
+.photo-card__caption-text {
+  color: #262626;
+}
+
+.photo-card__more-button {
+  background: none;
+  border: none;
+  color: #8e8e8e;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.photo-card__more-button:hover {
+  color: #262626;
+}
+
+.photo-card__timestamp {
+  display: block;
+  font-size: 12px;
+  color: #8e8e8e;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .photo-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  .photo-card__header {
+    padding: 12px 16px;
+  }
+
+  .photo-card__content {
+    padding: 0 16px 12px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .photo-card {
+    background: #000;
+    border-color: #262626;
+  }
+
+  .photo-card__username,
+  .photo-card__caption-text {
+    color: #fafafa;
+  }
+
+  .photo-card__timestamp,
+  .photo-card__more-button {
+    color: #a8a8a8;
+  }
+
+  .photo-card__more-button:hover {
+    color: #fafafa;
+  }
+
+  .photo-card__image-container {
+    background: #121212;
+  }
+}

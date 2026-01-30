@@ -59,12 +59,13 @@ export async function getPersonalizedFeed(req: AuthRequest, res: Response): Prom
       return;
     }
 
-    // Get photos from followed users
+    // Get photos from followed users (optimized with lean())
     const photos = await Photo.find({ userId: { $in: followingIds } })
-      .sort({ createdAt: -1 }) // Newest first
+      .sort({ createdAt: -1 }) // Newest first - uses index { userId: 1, createdAt: -1 }
       .skip(page * limit)
       .limit(limit)
-      .populate('userId', 'username profilePictureUrl'); // Populate user data
+      .populate('userId', 'username profilePictureUrl') // Populate only needed fields
+      .lean(); // Use lean for better performance
 
     // Get total count for pagination
     const total = await Photo.countDocuments({ userId: { $in: followingIds } });
@@ -129,12 +130,13 @@ export async function getDiscoveryFeed(req: Request, res: Response): Promise<voi
     page = Math.max(0, page); // Ensure non-negative
     limit = Math.min(Math.max(1, limit), 50); // Between 1 and 50
 
-    // Get all photos (no filtering by follows)
+    // Get all photos (no filtering by follows) - optimized with lean()
     const photos = await Photo.find({})
-      .sort({ createdAt: -1 }) // Newest first
+      .sort({ createdAt: -1 }) // Newest first - uses index { createdAt: -1 }
       .skip(page * limit)
       .limit(limit)
-      .populate('userId', 'username profilePictureUrl'); // Populate user data
+      .populate('userId', 'username profilePictureUrl') // Populate only needed fields
+      .lean(); // Use lean for better performance
 
     // Get total count for pagination
     const total = await Photo.countDocuments({});
