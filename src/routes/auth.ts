@@ -4,7 +4,8 @@
  */
 
 import { Router } from 'express';
-import { register, login } from '../controllers/authController';
+import { register, login, getCurrentUser } from '../controllers/authController';
+import { authenticateJWT } from '../middleware/authMiddleware';
 
 const router = Router();
 
@@ -19,5 +20,12 @@ router.post('/register', register);
  * Login user with email/username and password
  */
 router.post('/login', login);
+
+/**
+ * GET /api/v1/auth/me
+ * Get current authenticated user's profile
+ * Requires: JWT token in Authorization header
+ */
+router.get('/me', authenticateJWT, getCurrentUser);
 
 export default router;
