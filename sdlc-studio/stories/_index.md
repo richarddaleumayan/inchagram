@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 26 |
+| Draft | 25 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 0 |
+| Done | 1 |
 | **Total** | **26** |
 
 ---
@@ -55,7 +55,7 @@
 |----|-------|--------|--------|---------|
 | US0011 | Photo Model and MongoDB Schema | Draft | 2 | Internal |
 | US0012 | Photo Upload API with S3 Integration | Draft | 5 | Alex (Photographer) |
-| US0013 | File Validation (Type, Size, Format) | Draft | 2 | All |
+| [US0013](US0013-file-validation.md) | File Validation (Type, Size, Format) | Done | 2 | All |
 | US0014 | Photo Deletion (MongoDB + S3 Cleanup) | Draft | 2 | Alex (Photographer) |
 | US0015 | Photo Upload Frontend Component | Draft | 2 | Jamie (Casual) |
 
@@ -112,7 +112,7 @@
 | US0010 | Profile Page Routing | EP0002 | Mark | 2 | Draft |
 | US0011 | Photo Model and Schema | EP0003 | Ethel | 2 | Draft |
 | US0012 | Photo Upload API with S3 | EP0003 | Ethel | 5 | Draft |
-| US0013 | File Validation | EP0003 | Ethel | 2 | Draft |
+| [US0013](US0013-file-validation.md) | File Validation | EP0003 | Ethel | 2 | Done |
 | US0014 | Photo Deletion | EP0003 | Ethel | 2 | Draft |
 | US0015 | Photo Upload Frontend | EP0003 | Ethel | 2 | Draft |
 | US0016 | Like/Unlike Photo API | EP0004 | Neildren | 2 | Draft |
