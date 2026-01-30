@@ -5,6 +5,7 @@
  */
 
 import { Response } from 'express';
+import { Types } from 'mongoose';
 import { AuthRequest } from '../middleware/authMiddleware';
 import Photo from '../models/Photo';
 import Follow from '../models/Follow';
@@ -13,7 +14,7 @@ import Follow from '../models/Follow';
  * Populated user data from Photo.populate('userId')
  */
 interface PopulatedUser {
-  _id: unknown;
+  _id: Types.ObjectId;
   username: string;
   profilePictureUrl?: string | null;
 }
