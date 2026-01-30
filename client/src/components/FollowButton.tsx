@@ -5,7 +5,9 @@
  */
 
 import { useState, useCallback } from 'react';
+import { apiUrl } from '../config/api';
 import './FollowButton.css';
+import { apiUrl } from '../config/api';
 
 interface FollowButtonProps {
   userId: string;

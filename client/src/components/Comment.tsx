@@ -4,9 +4,13 @@
  */
 
 import { useState } from 'react';
+import { apiUrl } from '../config/api';
 import { formatDistanceToNow } from 'date-fns';
+import { apiUrl } from '../config/api';
 import type { CommentData } from '../types/comment';
+import { apiUrl } from '../config/api';
 import './Comment.css';
+import { apiUrl } from '../config/api';
 
 interface CommentProps {
   comment: CommentData;

@@ -6,7 +6,9 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { apiUrl } from '../config/api';
 import './EditProfileModal.css';
+import { apiUrl } from '../config/api';
 
 interface EditProfileModalProps {
   isOpen: boolean;

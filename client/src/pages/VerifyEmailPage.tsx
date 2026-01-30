@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { apiUrl } from '../config/api';
 
 interface VerifyEmailPageProps {
   onNavigate: (to: string) => void;

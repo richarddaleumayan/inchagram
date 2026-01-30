@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { PhotoGrid } from '../components/PhotoGrid';
 import { EditProfileModal } from '../components/EditProfileModal';
 import { FollowButton } from '../components/FollowButton';
+import { apiUrl } from '../config/api';
 import './ProfilePage.css';
 
 interface ProfileData {
@@ -97,7 +98,7 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
       }
 
       try {
-        const response = await fetch('/api/v1/auth/me', {
+        const response = await fetch(apiUrl('/api/v1/auth/me'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await response.json();

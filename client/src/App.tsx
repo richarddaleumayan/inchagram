@@ -9,6 +9,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { VerifyEmailPage } from './pages/VerifyEmailPage';
 import { ThemeToggle } from './components/ThemeToggle';
 import { Logo } from './components/Logo';
+import { apiUrl } from './config/api';
 import './styles/design-system.css';
 import './App.css';
 
@@ -53,7 +54,7 @@ function App() {
 
     const fetchCurrentUser = async () => {
       try {
-        const response = await fetch('/api/v1/auth/me', {
+        const response = await fetch(apiUrl('/api/v1/auth/me'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await response.json();
@@ -101,7 +102,7 @@ function App() {
     setLoggingIn(true);
 
     try {
-      const response = await fetch('/api/v1/auth/login', {
+      const response = await fetch(apiUrl('/api/v1/auth/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +134,7 @@ function App() {
     setLoggingIn(true);
 
     try {
-      const response = await fetch('/api/v1/auth/register', {
+      const response = await fetch(apiUrl('/api/v1/auth/register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,7 +166,7 @@ function App() {
     if (!verificationEmailSent) return;
 
     try {
-      const response = await fetch('/api/v1/auth/resend-verification', {
+      const response = await fetch(apiUrl('/api/v1/auth/resend-verification'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

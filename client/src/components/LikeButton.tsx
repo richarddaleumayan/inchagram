@@ -5,7 +5,9 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
+import { apiUrl } from '../config/api';
 import './LikeButton.css';
+import { apiUrl } from '../config/api';
 
 interface LikeButtonProps {
   photoId: string;

@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import { Comment } from './Comment';
 import type { CommentData } from '../types/comment';
+import { apiUrl } from '../config/api';
 import './CommentList.css';
 
 interface CommentListProps {
