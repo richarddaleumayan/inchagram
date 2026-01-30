@@ -5,7 +5,7 @@
 
 import express from 'express';
 import multer from 'multer';
-import { uploadPhoto, getPhoto } from '../controllers/photoController';
+import { uploadPhoto, getPhoto, deletePhoto } from '../controllers/photoController';
 import { likePhoto, unlikePhoto } from '../controllers/likeController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 import { MAX_FILE_SIZE } from '../utils/validation';
@@ -37,6 +37,12 @@ router.post('/', authenticateJWT, upload.single('photo'), uploadPhoto);
  * Get photo by ID (public, no auth required)
  */
 router.get('/:photoId', getPhoto);
+
+/**
+ * DELETE /api/v1/photos/:photoId
+ * Delete photo (requires authentication, owner only)
+ */
+router.delete('/:photoId', authenticateJWT, deletePhoto);
 
 /**
  * POST /api/v1/photos/:photoId/like
