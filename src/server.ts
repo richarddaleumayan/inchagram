@@ -3,12 +3,12 @@
  * Starts the Express server and connects to MongoDB
  */
 
+// Load environment variables FIRST before any other imports
 import dotenv from 'dotenv';
+dotenv.config();
+
 import app from './app';
 import { connectDatabase } from './config/database';
-
-// Load environment variables
-dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 

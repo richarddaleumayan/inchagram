@@ -7,6 +7,7 @@ import express from 'express';
 import multer from 'multer';
 import { uploadPhoto, getPhoto, deletePhoto } from '../controllers/photoController';
 import { likePhoto, unlikePhoto, getPhotoLikes } from '../controllers/likeController';
+import { getPersonalizedFeed } from '../controllers/feedController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 import { MAX_FILE_SIZE } from '../utils/validation';
 
@@ -23,6 +24,14 @@ const upload = multer({
     fileSize: MAX_FILE_SIZE, // 10MB
   },
 });
+
+/**
+ * GET /api/v1/photos/feed
+ * Get personalized feed (photos from followed users)
+ * Requires authentication
+ * Query params: ?page=0&limit=20
+ */
+router.get('/feed', authenticateJWT, getPersonalizedFeed);
 
 /**
  * POST /api/v1/photos

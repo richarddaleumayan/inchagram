@@ -1,0 +1,112 @@
+/**
+ * Feed Controller
+ * Handles feed-related operations
+ * Story: US0023 - Personalized Feed API
+ */
+
+import { Response } from 'express';
+import { Types } from 'mongoose';
+import { AuthRequest } from '../middleware/authMiddleware';
+import Photo from '../models/Photo';
+import Follow from '../models/Follow';
+
+/**
+ * Populated user data from Photo.populate('userId')
+ */
+interface PopulatedUser {
+  _id: Types.ObjectId;
+  username: string;
+  profilePictureUrl?: string | null;
+}
+
+/**
+ * Get Personalized Feed
+ * GET /api/v1/photos/feed
+ *
+ * Returns photos from users the authenticated user follows,
+ * sorted chronologically (newest first) with pagination support.
+ */
+export async function getPersonalizedFeed(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    const { userId } = req.user!; // Populated by authenticateJWT middleware
+
+    // Parse and validate query parameters
+    let page = parseInt(req.query.page as string) || 0;
+    let limit = parseInt(req.query.limit as string) || 20;
+
+    // Validate and sanitize pagination params
+    page = Math.max(0, page); // Ensure non-negative
+    limit = Math.min(Math.max(1, limit), 50); // Between 1 and 50
+
+    // Get users the authenticated user follows
+    const follows = await Follow.find({ followerId: userId }).select('followingId');
+    const followingIds = follows.map(f => f.followingId);
+
+    // If not following anyone, return empty feed
+    if (followingIds.length === 0) {
+      res.status(200).json({
+        success: true,
+        data: {
+          photos: [],
+          pagination: {
+            page,
+            limit,
+            total: 0,
+            hasMore: false
+          }
+        }
+      });
+      return;
+    }
+
+    // Get photos from followed users
+    const photos = await Photo.find({ userId: { $in: followingIds } })
+      .sort({ createdAt: -1 }) // Newest first
+      .skip(page * limit)
+      .limit(limit)
+      .populate('userId', 'username profilePictureUrl'); // Populate user data
+
+    // Get total count for pagination
+    const total = await Photo.countDocuments({ userId: { $in: followingIds } });
+
+    // Format response
+    const formattedPhotos = photos.map(photo => {
+      const user = photo.userId as unknown as PopulatedUser; // Populated user document
+      return {
+        photoId: photo._id.toString(),
+        imageUrl: photo.imageUrl,
+        caption: photo.caption || '',
+        userId: user._id.toString(),
+        username: user.username,
+        profilePictureUrl: user.profilePictureUrl || null,
+        likeCount: photo.likeCount,
+        createdAt: photo.createdAt
+      };
+    });
+
+    // Calculate hasMore
+    const hasMore = (page + 1) * limit < total;
+
+    res.status(200).json({
+      success: true,
+      data: {
+        photos: formattedPhotos,
+        pagination: {
+          page,
+          limit,
+          total,
+          hasMore
+        }
+      }
+    });
+  } catch (error: unknown) {
+    console.error('Get personalized feed error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred retrieving feed'
+      }
+    });
+  }
+}
