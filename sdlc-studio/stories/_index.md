@@ -69,7 +69,7 @@
 | ID | Title | Status | Points | Persona |
 |----|-------|--------|--------|---------|
 | US0016 | Like/Unlike Photo API Endpoints | Draft | 2 | All |
-| US0017 | Like Model and Denormalized Count Logic | Draft | 2 | Internal |
+| [US0017](US0017-like-model.md) | Like Model and Denormalized Count Logic | Done | 2 | Internal |
 | US0018 | View Photo Likes List | Draft | 2 | Alex (Photographer) |
 | US0019 | Follow/Unfollow User API Endpoints | Draft | 2 | Taylor (Curator) |
 | [US0020](US0020-follow-model.md) | Follow Model with Self-Follow Validation | Done | 2 | Internal |
@@ -116,7 +116,7 @@
 | US0014 | Photo Deletion | EP0003 | Ethel | 2 | Draft |
 | US0015 | Photo Upload Frontend | EP0003 | Ethel | 2 | Draft |
 | US0016 | Like/Unlike Photo API | EP0004 | Neildren | 2 | Draft |
-| US0017 | Like Model and Count Logic | EP0004 | Neildren | 2 | Draft |
+| [US0017](US0017-like-model.md) | Like Model and Count Logic | EP0004 | Neildren | 2 | Done |
 | US0018 | View Photo Likes List | EP0004 | Neildren | 2 | Draft |
 | US0019 | Follow/Unfollow User API | EP0004 | Neildren | 2 | Draft |
 | [US0020](US0020-follow-model.md) | Follow Model with Validation | EP0004 | Neildren | 2 | Done |
