@@ -62,7 +62,7 @@ export function FeedPage({ onNavigate }: FeedPageProps) {
     }
 
     const response = await fetch(
-      `${endpoint}?page=${pageParam}&limit=20`,
+      apiUrl(`${endpoint}?page=${pageParam}&limit=20`),
       { headers }
     );
 
