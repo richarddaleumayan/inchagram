@@ -1,10 +1,11 @@
 # US0004: Input Validation Middleware
 
-> **Status:** Draft
+> **Status:** Done
 > **Epic:** [EP0001: User Authentication & Account Management](../epics/EP0001-user-authentication.md)
 > **Owner:** Richard
 > **Reviewer:** TBD
 > **Created:** 2026-01-30
+> **Completed:** 2026-01-30
 
 ## User Story
 

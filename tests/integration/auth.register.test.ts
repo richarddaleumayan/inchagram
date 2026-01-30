@@ -81,7 +81,7 @@ describe('POST /api/v1/auth/register', () => {
 
       expect(response.body.success).toBe(false);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
-      expect(response.body.error.message).toMatch(/email.*invalid/i);
+      expect(response.body.error.message).toBe('Invalid email format');
 
       // Verify no user was created
       const count = await User.countDocuments();
@@ -400,7 +400,7 @@ describe('POST /api/v1/auth/register', () => {
         .expect(400);
 
       expect(response.body.success).toBe(false);
-      expect(response.body.error.message).toMatch(/username.*invalid/i);
+      expect(response.body.error.message).toBe('Username is required');
 
       // Verify no user created
       const count = await User.countDocuments();
