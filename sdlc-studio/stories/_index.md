@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 12 |
+| Draft | 11 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 14 |
+| Done | 15 |
 | **Total** | **26** |
 
 ---
@@ -73,7 +73,7 @@
 | [US0018](US0018-view-photo-likes-list.md) | View Photo Likes List | Done | 2 | Alex (Photographer) |
 | [US0019](US0019-follow-unfollow-user-api.md) | Follow/Unfollow User API Endpoints | Done | 2 | Taylor (Curator) |
 | [US0020](US0020-follow-model.md) | Follow Model with Self-Follow Validation | Done | 2 | Internal |
-| US0021 | Like Button Component (Frontend) | Draft | 2 | All |
+| [US0021](US0021-like-button-component.md) | Like Button Component (Frontend) | Done | 2 | All |
 | US0022 | Follow Button Component (Frontend) | Draft | 1 | All |
 
 **Critical:** US0021 (Like Button) component is reused by US0025 (Photo Card in feeds)
@@ -120,7 +120,7 @@
 | [US0018](US0018-view-photo-likes-list.md) | View Photo Likes List | EP0004 | Neildren | 2 | Done |
 | [US0019](US0019-follow-unfollow-user-api.md) | Follow/Unfollow User API | EP0004 | Neildren | 2 | Done |
 | [US0020](US0020-follow-model.md) | Follow Model with Validation | EP0004 | Neildren | 2 | Done |
-| US0021 | Like Button Component | EP0004 | Neildren | 2 | Draft |
+| [US0021](US0021-like-button-component.md) | Like Button Component | EP0004 | Neildren | 2 | Done |
 | US0022 | Follow Button Component | EP0004 | Neildren | 1 | Draft |
 | [US0023](US0023-personalized-feed-api.md) | Personalized Feed API | EP0005 | Richard | 3 | Done |
 | US0024 | Discovery Feed API | EP0005 | Richard | 2 | Draft |
