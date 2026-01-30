@@ -5,7 +5,20 @@
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend only if API key is provided
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+const resend = RESEND_API_KEY && RESEND_API_KEY !== 'your_resend_api_key_here'
+  ? new Resend(RESEND_API_KEY)
+  : null;
+
+// Helper to check if email service is configured
+function checkEmailService(): void {
+  if (!resend) {
+    console.warn('⚠️  Email service not configured. Please set RESEND_API_KEY in .env');
+    console.warn('   Sign up at https://resend.com to get your free API key');
+    throw new Error('Email service not configured');
+  }
+}
 
 /**
  * Send email verification email
@@ -15,10 +28,12 @@ export async function sendVerificationEmail(
   username: string,
   verificationToken: string
 ): Promise<void> {
+  checkEmailService();
+
   const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${verificationToken}`;
 
   try {
-    await resend.emails.send({
+    await resend!.emails.send({
       from: process.env.EMAIL_FROM || 'Inchagram <onboarding@resend.dev>',
       to: email,
       subject: 'Verify your Inchagram account',
@@ -73,10 +88,12 @@ export async function sendPasswordResetEmail(
   username: string,
   resetToken: string
 ): Promise<void> {
+  checkEmailService();
+
   const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${resetToken}`;
 
   try {
-    await resend.emails.send({
+    await resend!.emails.send({
       from: process.env.EMAIL_FROM || 'Inchagram <onboarding@resend.dev>',
       to: email,
       subject: 'Reset your Inchagram password',
