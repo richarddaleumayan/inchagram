@@ -1,6 +1,6 @@
 # US0003: JWT Authentication Middleware
 
-> **Status:** Draft
+> **Status:** Done
 > **Epic:** [EP0001: User Authentication & Account Management](../epics/EP0001-user-authentication.md)
 > **Owner:** Richard
 > **Reviewer:** TBD
