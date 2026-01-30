@@ -5,9 +5,11 @@
 
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import User from '../models/User';
 import { generateToken } from '../services/jwtService';
 import { AuthRequest } from '../middleware/authMiddleware';
+import { sendVerificationEmail } from '../services/emailService';
 
 const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS || '10', 10);
 
@@ -53,12 +55,27 @@ export async function register(req: Request, res: Response): Promise<void> {
     // Hash password with bcrypt
     const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
+    // Generate verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
     // Create user
     const user = await User.create({
       email: email.toLowerCase().trim(),
       username: username.trim(),
-      passwordHash
+      passwordHash,
+      isVerified: false,
+      verificationToken,
+      verificationTokenExpiry
     });
+
+    // Send verification email
+    try {
+      await sendVerificationEmail(user.email, user.username, verificationToken);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Don't fail registration if email fails, but log it
+    }
 
     // Return success response
     res.status(201).json({
@@ -68,7 +85,7 @@ export async function register(req: Request, res: Response): Promise<void> {
         username: user.username,
         email: user.email
       },
-      message: 'User registered successfully'
+      message: 'Registration successful! Please check your email to verify your account.'
     });
   } catch (error: unknown) {
     // Type guard for MongoDB/Mongoose errors
@@ -186,6 +203,19 @@ export async function login(req: Request, res: Response): Promise<void> {
       return;
     }
 
+    // Check if email is verified
+    if (!user.isVerified) {
+      res.status(403).json({
+        success: false,
+        error: {
+          code: 'EMAIL_NOT_VERIFIED',
+          message: 'Please verify your email address before logging in. Check your inbox for the verification link.',
+          details: { email: user.email }
+        }
+      });
+      return;
+    }
+
     // Generate JWT token
     const token = generateToken(user._id.toString(), user.username);
 
@@ -211,6 +241,147 @@ export async function login(req: Request, res: Response): Promise<void> {
         code: 'INTERNAL_ERROR',
         message: 'An error occurred during login',
         details: {}
+      }
+    });
+  }
+}
+
+/**
+ * Verify email address
+ * GET /api/v1/auth/verify-email?token=xxx
+ */
+export async function verifyEmail(req: Request, res: Response): Promise<void> {
+  try {
+    const { token } = req.query;
+
+    if (!token || typeof token !== 'string') {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Verification token is required'
+        }
+      });
+      return;
+    }
+
+    // Find user with this verification token
+    const user = await User.findOne({
+      verificationToken: token,
+      verificationTokenExpiry: { $gt: new Date() }
+    }).select('+verificationToken +verificationTokenExpiry');
+
+    if (!user) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'INVALID_TOKEN',
+          message: 'Invalid or expired verification token'
+        }
+      });
+      return;
+    }
+
+    // Mark user as verified
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpiry = undefined;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Email verified successfully! You can now log in.'
+    });
+  } catch (error: unknown) {
+    console.error('Email verification error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred during email verification'
+      }
+    });
+  }
+}
+
+/**
+ * Resend verification email
+ * POST /api/v1/auth/resend-verification
+ */
+export async function resendVerificationEmail(req: Request, res: Response): Promise<void> {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Email is required'
+        }
+      });
+      return;
+    }
+
+    // Find user by email
+    const user = await User.findOne({ email: email.toLowerCase().trim() })
+      .select('+verificationToken +verificationTokenExpiry');
+
+    if (!user) {
+      // Don't reveal if email exists for security
+      res.status(200).json({
+        success: true,
+        message: 'If an account exists with this email, a verification link will be sent.'
+      });
+      return;
+    }
+
+    // Check if already verified
+    if (user.isVerified) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'ALREADY_VERIFIED',
+          message: 'This email is already verified'
+        }
+      });
+      return;
+    }
+
+    // Generate new verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    user.verificationToken = verificationToken;
+    user.verificationTokenExpiry = verificationTokenExpiry;
+    await user.save();
+
+    // Send verification email
+    try {
+      await sendVerificationEmail(user.email, user.username, verificationToken);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'EMAIL_ERROR',
+          message: 'Failed to send verification email. Please try again later.'
+        }
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Verification email sent! Please check your inbox.'
+    });
+  } catch (error: unknown) {
+    console.error('Resend verification error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred while resending verification email'
       }
     });
   }

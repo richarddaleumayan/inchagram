@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { PhotoUpload } from './components/PhotoUpload';
 import { FeedPage } from './pages/FeedPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { VerifyEmailPage } from './pages/VerifyEmailPage';
 import { ThemeToggle } from './components/ThemeToggle';
 import './styles/design-system.css';
 import './App.css';
@@ -15,10 +16,15 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
   const [activeView, setActiveView] = useState<'feed' | 'upload'>('feed');
   const [currentUsername, setCurrentUsername] = useState<string | null>(null);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [verificationEmailSent, setVerificationEmailSent] = useState('');
 
   // Check if user is already logged in
   useEffect(() => {
@@ -65,6 +71,18 @@ function App() {
     fetchCurrentUser();
   }, [isAuthenticated]);
 
+  // Navigate function for client-side routing
+  const navigate = (to: string) => {
+    if (to === path) return;
+    window.history.pushState({}, '', to);
+    setPath(to);
+  };
+
+  // Check for verify-email route
+  const isVerifyEmailRoute = useMemo(() => {
+    return path === '/verify-email' || path.startsWith('/verify-email?');
+  }, [path]);
+
   // Match profile routes
   const profileUsername = useMemo(() => {
     const match = path.match(/^\/profile\/([^/]+)\/?$/);
@@ -75,13 +93,6 @@ function App() {
       return match[1];
     }
   }, [path]);
-
-  // Navigate function for client-side routing
-  const navigate = (to: string) => {
-    if (to === path) return;
-    window.history.pushState({}, '', to);
-    setPath(to);
-  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,6 +126,72 @@ function App() {
     }
   };
 
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError('');
+    setLoggingIn(true);
+
+    try {
+      const response = await fetch('/api/v1/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setRegistrationSuccess(true);
+        setVerificationEmailSent(email);
+        setEmail('');
+        setUsername('');
+        setPassword('');
+        setDisplayName('');
+      } else {
+        setLoginError(data.error?.message || 'Registration failed. Please try again.');
+      }
+    } catch (err) {
+      setLoginError('Network error. Please check your connection.');
+      console.error('Registration error:', err);
+    } finally {
+      setLoggingIn(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!verificationEmailSent) return;
+
+    try {
+      const response = await fetch('/api/v1/auth/resend-verification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: verificationEmailSent }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setLoginError('');
+        alert('Verification email sent! Please check your inbox.');
+      } else {
+        setLoginError(data.error?.message || 'Failed to resend verification email.');
+      }
+    } catch (err) {
+      setLoginError('Network error. Please check your connection.');
+      console.error('Resend verification error:', err);
+    }
+  };
+
+  const switchAuthMode = () => {
+    setAuthMode(authMode === 'login' ? 'register' : 'login');
+    setLoginError('');
+    setRegistrationSuccess(false);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
@@ -122,19 +199,84 @@ function App() {
     navigate('/');
   };
 
+  // Render verify-email page (public route)
+  if (isVerifyEmailRoute) {
+    return <VerifyEmailPage onNavigate={navigate} />;
+  }
+
   // Render profile page if on profile route
   if (profileUsername) {
     return <ProfilePage username={profileUsername} onNavigate={navigate} />;
   }
 
   if (!isAuthenticated) {
+    // Show success message after registration
+    if (registrationSuccess) {
+      return (
+        <div className="app-container">
+          <div className="login-container">
+            <h1>inchagram</h1>
+            <p className="subtitle">Check your email</p>
+
+            <div className="alert alert-success" style={{ marginBottom: '1.5rem' }}>
+              <span className="alert-icon">✉️</span>
+              We've sent a verification link to <strong>{verificationEmailSent}</strong>. Please check your inbox and click the link to verify your account.
+            </div>
+
+            <p className="hint-text">
+              Didn't receive the email?
+              <br />
+              <button
+                onClick={handleResendVerification}
+                className="btn btn-secondary"
+                style={{ marginTop: '1rem' }}
+              >
+                Resend Verification Email
+              </button>
+            </p>
+
+            <button
+              onClick={() => {
+                setRegistrationSuccess(false);
+                setAuthMode('login');
+              }}
+              className="btn btn-primary btn-block"
+              style={{ marginTop: '1rem' }}
+            >
+              Back to Login
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="app-container">
         <div className="login-container">
           <h1>inchagram</h1>
-          <p className="subtitle">Photo sharing made simple</p>
+          <p className="subtitle">
+            {authMode === 'login' ? 'Welcome back' : 'Create your account'}
+          </p>
 
-          <form onSubmit={handleLogin} className="login-form">
+          <form onSubmit={authMode === 'login' ? handleLogin : handleRegister} className="login-form">
+            {authMode === 'register' && (
+              <div className="form-group">
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  disabled={loggingIn}
+                  className="form-input"
+                  minLength={3}
+                  maxLength={30}
+                  pattern="[a-zA-Z0-9_]+"
+                  title="Username must contain only letters, numbers, and underscores"
+                />
+              </div>
+            )}
+
             <div className="form-group">
               <input
                 type="email"
@@ -156,6 +298,7 @@ function App() {
                 required
                 disabled={loggingIn}
                 className="form-input"
+                minLength={authMode === 'register' ? 8 : undefined}
               />
             </div>
 
@@ -167,14 +310,19 @@ function App() {
             )}
 
             <button type="submit" disabled={loggingIn} className="btn btn-primary btn-block">
-              {loggingIn ? 'Logging in...' : 'Log In'}
+              {loggingIn ? (authMode === 'login' ? 'Logging in...' : 'Creating account...') : (authMode === 'login' ? 'Log In' : 'Sign Up')}
             </button>
           </form>
 
           <p className="hint-text">
-            Note: You need an existing account to log in.
-            <br />
-            Create an account via the API or use test credentials.
+            {authMode === 'login' ? "Don't have an account? " : 'Already have an account? '}
+            <button
+              onClick={switchAuthMode}
+              className="btn btn-secondary"
+              style={{ marginTop: '0.5rem' }}
+            >
+              {authMode === 'login' ? 'Sign Up' : 'Log In'}
+            </button>
           </p>
         </div>
       </div>

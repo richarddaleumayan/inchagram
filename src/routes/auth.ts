@@ -4,7 +4,7 @@
  */
 
 import { Router } from 'express';
-import { register, login, getCurrentUser } from '../controllers/authController';
+import { register, login, getCurrentUser, verifyEmail, resendVerificationEmail } from '../controllers/authController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 import {
   validateRequired,
@@ -41,5 +41,21 @@ router.post('/login', login);
  * Requires: JWT token in Authorization header
  */
 router.get('/me', authenticateJWT, getCurrentUser);
+
+/**
+ * GET /api/v1/auth/verify-email?token=xxx
+ * Verify user's email address with token
+ */
+router.get('/verify-email', verifyEmail);
+
+/**
+ * POST /api/v1/auth/resend-verification
+ * Resend verification email to user
+ */
+router.post('/resend-verification',
+  validateRequired(['email']),
+  validateEmail('email'),
+  resendVerificationEmail
+);
 
 export default router;

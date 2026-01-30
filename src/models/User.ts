@@ -15,6 +15,9 @@ export interface IUser extends Document {
   displayName?: string;
   bio?: string;
   profilePictureUrl?: string;
+  isVerified: boolean;
+  verificationToken?: string;
+  verificationTokenExpiry?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -60,6 +63,18 @@ const userSchema = new Schema<IUser>(
     profilePictureUrl: {
       type: String,
       trim: true
+    },
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
+    verificationToken: {
+      type: String,
+      select: false // Don't include in queries by default
+    },
+    verificationTokenExpiry: {
+      type: Date,
+      select: false // Don't include in queries by default
     }
   },
   {

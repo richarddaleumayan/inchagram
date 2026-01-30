@@ -146,6 +146,12 @@
   border: 1px solid var(--error);
 }
 
+.alert-success {
+  background-color: var(--success-light);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
 /* ============================================
    BUTTON EXTENSIONS
    ============================================ */
