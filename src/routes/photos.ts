@@ -7,7 +7,7 @@ import express from 'express';
 import multer from 'multer';
 import { uploadPhoto, getPhoto, deletePhoto } from '../controllers/photoController';
 import { likePhoto, unlikePhoto, getPhotoLikes } from '../controllers/likeController';
-import { getPersonalizedFeed } from '../controllers/feedController';
+import { getPersonalizedFeed, getDiscoveryFeed } from '../controllers/feedController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 import { MAX_FILE_SIZE } from '../utils/validation';
 
@@ -32,6 +32,14 @@ const upload = multer({
  * Query params: ?page=0&limit=20
  */
 router.get('/feed', authenticateJWT, getPersonalizedFeed);
+
+/**
+ * GET /api/v1/photos/discover
+ * Get discovery feed (all photos from all users)
+ * Public endpoint (no authentication required)
+ * Query params: ?page=0&limit=20
+ */
+router.get('/discover', getDiscoveryFeed);
 
 /**
  * POST /api/v1/photos
