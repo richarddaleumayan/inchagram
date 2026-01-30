@@ -2,18 +2,21 @@
  * Main App Component
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { PhotoUpload } from './components/PhotoUpload';
 import { FeedPage } from './pages/FeedPage';
+import { ProfilePage } from './pages/ProfilePage';
 import './App.css';
 
 function App() {
+  const [path, setPath] = useState(() => window.location.pathname || '/');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
   const [activeView, setActiveView] = useState<'feed' | 'upload'>('feed');
+  const [currentUsername, setCurrentUsername] = useState<string | null>(null);
 
   // Check if user is already logged in
   useEffect(() => {
@@ -22,6 +25,61 @@ function App() {
       setIsAuthenticated(true);
     }
   }, []);
+
+  // Listen for browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      setPath(window.location.pathname || '/');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Fetch current username for "My Profile" button
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await fetch('/api/v1/auth/me', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          const username = data.data?.username;
+          if (username) {
+            setCurrentUsername(username);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch current user:', err);
+      }
+    };
+
+    fetchCurrentUser();
+  }, [isAuthenticated]);
+
+  // Match profile routes
+  const profileUsername = useMemo(() => {
+    const match = path.match(/^\/profile\/([^/]+)\/?$/);
+    if (!match) return null;
+    try {
+      return decodeURIComponent(match[1]);
+    } catch {
+      return match[1];
+    }
+  }, [path]);
+
+  // Navigate function for client-side routing
+  const navigate = (to: string) => {
+    if (to === path) return;
+    window.history.pushState({}, '', to);
+    setPath(to);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +116,14 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
+    setCurrentUsername(null);
+    navigate('/');
   };
+
+  // Render profile page if on profile route
+  if (profileUsername) {
+    return <ProfilePage username={profileUsername} onNavigate={navigate} />;
+  }
 
   if (!isAuthenticated) {
     return (
@@ -131,6 +196,14 @@ function App() {
           >
             Upload
           </button>
+          {currentUsername && (
+            <button
+              onClick={() => navigate(`/profile/${currentUsername}`)}
+              className="btn btn-secondary btn-sm"
+            >
+              My Profile
+            </button>
+          )}
           <button onClick={handleLogout} className="btn btn-secondary btn-sm">
             Log Out
           </button>
@@ -138,7 +211,7 @@ function App() {
       </header>
 
       <main className="app-main">
-        {activeView === 'feed' ? <FeedPage /> : <PhotoUpload />}
+        {activeView === 'feed' ? <FeedPage onNavigate={navigate} /> : <PhotoUpload />}
       </main>
     </div>
   );

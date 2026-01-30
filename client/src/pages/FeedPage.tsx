@@ -36,7 +36,11 @@ interface FeedResponse {
   };
 }
 
-export function FeedPage() {
+interface FeedPageProps {
+  onNavigate?: (path: string) => void;
+}
+
+export function FeedPage({ onNavigate }: FeedPageProps) {
   const [activeTab, setActiveTab] = useState<FeedType>('following');
   const observerTarget = useRef<HTMLDivElement>(null);
 
@@ -173,7 +177,7 @@ export function FeedPage() {
         {!isLoading && !isError && allPhotos.length > 0 && (
           <div className="feed-page__photos">
             {allPhotos.map((photo) => (
-              <PhotoCard key={photo.photoId} {...photo} />
+              <PhotoCard key={photo.photoId} {...photo} onNavigate={onNavigate} />
             ))}
 
             {/* Infinite Scroll Trigger */}
