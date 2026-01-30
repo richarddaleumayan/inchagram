@@ -140,3 +140,89 @@ export async function getUserByUsername(req: Request, res: Response): Promise<vo
     });
   }
 }
+
+/**
+ * Get user's photos
+ * GET /api/v1/users/:userId/photos
+ * Story: US0007 - Profile Photo Grid Component
+ */
+export async function getUserPhotos(req: Request, res: Response): Promise<void> {
+  try {
+    const { userId } = req.params;
+    const page = parseInt(req.query.page as string) || 0;
+    const limit = parseInt(req.query.limit as string) || 20;
+
+    // Validate ObjectId format
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Invalid user ID format',
+          details: { userId }
+        }
+      });
+      return;
+    }
+
+    // Check if user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        error: {
+          code: 'NOT_FOUND',
+          message: 'User not found',
+          details: { userId }
+        }
+      });
+      return;
+    }
+
+    // Get total photo count
+    const total = await Photo.countDocuments({ userId });
+
+    // Fetch photos with pagination (newest first)
+    const photos = await Photo.find({ userId })
+      .sort({ createdAt: -1 })
+      .skip(page * limit)
+      .limit(limit)
+      .select('_id imageUrl caption likeCount createdAt')
+      .lean();
+
+    // Calculate if there are more photos
+    const hasMore = (page + 1) * limit < total;
+
+    // Format response
+    const formattedPhotos = photos.map((photo: any) => ({
+      photoId: photo._id.toString(),
+      imageUrl: photo.imageUrl,
+      caption: photo.caption || '',
+      likeCount: photo.likeCount || 0,
+      createdAt: photo.createdAt.toISOString()
+    }));
+
+    res.status(200).json({
+      success: true,
+      data: {
+        photos: formattedPhotos,
+        pagination: {
+          page,
+          limit,
+          total,
+          hasMore
+        }
+      }
+    });
+  } catch (error: unknown) {
+    console.error('Get user photos error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred while fetching user photos',
+        details: {}
+      }
+    });
+  }
+}

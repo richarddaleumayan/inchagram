@@ -4,7 +4,7 @@
  */
 
 import { Router } from 'express';
-import { getUserById, getUserByUsername } from '../controllers/profileController';
+import { getUserById, getUserByUsername, getUserPhotos } from '../controllers/profileController';
 import { followUser, unfollowUser } from '../controllers/followController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 
@@ -22,6 +22,13 @@ router.get('/username/:username', getUserByUsername);
  * Get user profile by MongoDB ObjectId
  */
 router.get('/:userId', getUserById);
+
+/**
+ * GET /api/v1/users/:userId/photos
+ * Get user's photos with pagination
+ * Story: US0007 - Profile Photo Grid Component
+ */
+router.get('/:userId/photos', getUserPhotos);
 
 /**
  * POST /api/v1/users/:userId/follow

@@ -1,0 +1,181 @@
+/**
+ * PhotoGrid Component Styles
+ * Story: US0007 - Profile Photo Grid Component
+ */
+
+.photo-grid {
+  width: 100%;
+}
+
+/* Loading State */
+.photo-grid__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #8e8e8e;
+}
+
+.photo-grid__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #262626;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.photo-grid__spinner--small {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+  margin-bottom: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error State */
+.photo-grid__error {
+  text-align: center;
+  padding: 60px 20px;
+  color: #ed4956;
+}
+
+/* Empty State */
+.photo-grid__empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.photo-grid__empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.photo-grid__empty-text {
+  color: #8e8e8e;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Photo Grid Container */
+.photo-grid__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin: 0;
+}
+
+/* Photo Grid Item */
+.photo-grid__item {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #f9f9f9;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.photo-grid__item:hover {
+  opacity: 0.9;
+}
+
+.photo-grid__item:hover .photo-grid__overlay {
+  opacity: 1;
+}
+
+.photo-grid__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay on Hover */
+.photo-grid__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.photo-grid__likes {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Loading More */
+.photo-grid__loading-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #8e8e8e;
+  font-size: 14px;
+}
+
+/* Intersection Observer Target */
+.photo-grid__observer {
+  height: 20px;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .photo-grid__container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+
+  .photo-grid__empty-icon {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-grid__container {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .photo-grid__empty {
+    padding: 60px 20px;
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .photo-grid__loading,
+  .photo-grid__loading-more {
+    color: #a8a8a8;
+  }
+
+  .photo-grid__spinner {
+    border-color: #262626;
+    border-top-color: #fafafa;
+  }
+
+  .photo-grid__empty-text {
+    color: #a8a8a8;
+  }
+
+  .photo-grid__item {
+    background: #1a1a1a;
+  }
+}

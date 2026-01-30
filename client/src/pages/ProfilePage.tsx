@@ -2,9 +2,11 @@
  * ProfilePage Component
  * Displays user profile with stats and info
  * Story: US0010 - Profile Page Routing and Navigation
+ * Updated: US0007 - Profile Photo Grid Component
  */
 
 import { useEffect, useState } from 'react';
+import { PhotoGrid } from '../components/PhotoGrid';
 import './ProfilePage.css';
 
 interface ProfileData {
@@ -158,12 +160,8 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
             </div>
           </div>
 
-          {/* Photo Grid Placeholder */}
-          <div className="profile-photos-placeholder">
-            <p className="profile-placeholder-text">
-              Photo grid coming soon (US0007)
-            </p>
-          </div>
+          {/* Photo Grid */}
+          <PhotoGrid userId={profile.userId} />
         </div>
       )}
     </div>
