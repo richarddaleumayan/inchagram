@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 21 |
+| Draft | 20 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 5 |
+| Done | 6 |
 | **Total** | **26** |
 
 ---
@@ -29,7 +29,7 @@
 | [US0002](US0002-user-login-jwt.md) | User Login API with JWT Token Generation | Done | 3 | Richard |
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | Done | 2 | Richard |
 | [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | Draft | 2 | Richard |
-| [US0005](US0005-get-current-user-endpoint.md) | Get Current User Endpoint (/auth/me) | Draft | 3 | Richard |
+| [US0005](US0005-get-current-user-endpoint.md) | Get Current User Endpoint (/auth/me) | Done | 3 | Richard |
 
 ---
 

@@ -170,10 +170,10 @@ Users need a simple, secure way to create accounts and access inchagram. Unlike 
 - [x] [US0002: User Login API with JWT Token Generation](../stories/US0002-user-login-jwt.md) - 3 points - **Done**
 - [x] [US0003: JWT Authentication Middleware](../stories/US0003-jwt-auth-middleware.md) - 2 points - **Done**
 - [ ] [US0004: Input Validation Middleware](../stories/US0004-input-validation-middleware.md) - 2 points - Draft
-- [ ] [US0005: Get Current User Endpoint (/auth/me)](../stories/US0005-get-current-user-endpoint.md) - 3 points - Draft
+- [x] [US0005: Get Current User Endpoint (/auth/me)](../stories/US0005-get-current-user-endpoint.md) - 3 points - **Done**
 
 **Total Story Points:** 13
-**Completed:** 8/13 points (61%)
+**Completed:** 11/13 points (85%)
 
 ---
 
