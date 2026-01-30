@@ -1,0 +1,259 @@
+/**
+ * EditProfileModal Component Styles
+ * Story: US0008 - Edit Profile API and UI
+ */
+
+/* Modal Container */
+.edit-profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Overlay */
+.edit-profile-modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+/* Content */
+.edit-profile-modal__content {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+.edit-profile-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.edit-profile-modal__header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.edit-profile-modal__close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  color: #8e8e8e;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.edit-profile-modal__close:hover {
+  color: #262626;
+}
+
+/* Form */
+.edit-profile-modal__form {
+  padding: 24px;
+}
+
+/* Field */
+.edit-profile-modal__field {
+  margin-bottom: 24px;
+}
+
+.edit-profile-modal__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.edit-profile-modal__input,
+.edit-profile-modal__textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dbdbdb;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.edit-profile-modal__input:focus,
+.edit-profile-modal__textarea:focus {
+  outline: none;
+  border-color: #262626;
+}
+
+.edit-profile-modal__input--error,
+.edit-profile-modal__textarea--error {
+  border-color: #ed4956;
+}
+
+.edit-profile-modal__textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Profile Picture */
+.edit-profile-modal__picture-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.edit-profile-modal__picture-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #dbdbdb;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+
+.edit-profile-modal__picture-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-profile-modal__picture-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #8e8e8e;
+  background: #fafafa;
+}
+
+.edit-profile-modal__hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #8e8e8e;
+  margin-bottom: 0;
+}
+
+/* Character Count */
+.edit-profile-modal__char-count {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #8e8e8e;
+  text-align: right;
+}
+
+.edit-profile-modal__char-count--error {
+  color: #ed4956;
+  font-weight: 600;
+}
+
+/* Error Message */
+.edit-profile-modal__error {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #ffeef0;
+  border: 1px solid #ed4956;
+  border-radius: 6px;
+  color: #ed4956;
+  font-size: 14px;
+}
+
+/* Actions */
+.edit-profile-modal__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.edit-profile-modal__actions .btn {
+  min-width: 80px;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .edit-profile-modal__content {
+    background: #1a1a1a;
+  }
+
+  .edit-profile-modal__header {
+    border-bottom-color: #262626;
+  }
+
+  .edit-profile-modal__header h2 {
+    color: #fafafa;
+  }
+
+  .edit-profile-modal__close {
+    color: #a8a8a8;
+  }
+
+  .edit-profile-modal__close:hover {
+    color: #fafafa;
+  }
+
+  .edit-profile-modal__label {
+    color: #fafafa;
+  }
+
+  .edit-profile-modal__input,
+  .edit-profile-modal__textarea {
+    background: #262626;
+    border-color: #3a3a3a;
+    color: #fafafa;
+  }
+
+  .edit-profile-modal__input:focus,
+  .edit-profile-modal__textarea:focus {
+    border-color: #fafafa;
+  }
+
+  .edit-profile-modal__char-count {
+    color: #a8a8a8;
+  }
+
+  .edit-profile-modal__error {
+    background: #2d1517;
+    border-color: #ed4956;
+  }
+
+  .edit-profile-modal__picture-preview {
+    border-color: #3a3a3a;
+    background: #262626;
+  }
+
+  .edit-profile-modal__picture-placeholder {
+    background: #262626;
+    color: #a8a8a8;
+  }
+
+  .edit-profile-modal__hint {
+    color: #a8a8a8;
+  }
+}
