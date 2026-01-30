@@ -1,0 +1,9 @@
+# SDLC Studio Schema Version
+# DO NOT EDIT MANUALLY - managed by upgrade command
+
+schema_version: 2
+last_upgrade: "2026-01-30"
+upgrade_history:
+  - version: 2
+    date: "2026-01-30"
+    action: "Initial project setup"

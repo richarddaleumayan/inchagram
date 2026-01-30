@@ -1,0 +1,42 @@
+# SDLC Studio - Cache and temporary files
+sdlc-studio/.cache/
+sdlc-studio/.status-cache.json
+sdlc-studio/.review-cache.json
+
+# Claude Code
+.claude/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
