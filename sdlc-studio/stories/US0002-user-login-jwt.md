@@ -1,6 +1,6 @@
 # US0002: User Login API with JWT Token Generation
 
-> **Status:** Draft
+> **Status:** Done
 > **Epic:** [EP0001: User Authentication & Account Management](../epics/EP0001-user-authentication.md)
 > **Owner:** Richard
 > **Reviewer:** TBD

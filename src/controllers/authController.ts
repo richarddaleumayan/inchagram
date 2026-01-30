@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User from '../models/User';
 import { isValidEmail, isValidUsername, isValidPassword } from '../utils/validation';
+import { generateToken } from '../services/jwtService';
 
 const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS || '10', 10);
 
@@ -146,10 +147,13 @@ export async function register(req: Request, res: Response): Promise<void> {
       },
       message: 'User registered successfully'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    // Type guard for MongoDB/Mongoose errors
+    const err = error as { code?: number; keyPattern?: Record<string, number>; name?: string; errors?: Record<string, { message: string; path: string }> };
+
     // Handle MongoDB duplicate key errors (shouldn't happen due to our checks, but safety net)
-    if (error.code === 11000) {
-      const field = Object.keys(error.keyPattern)[0];
+    if (err.code === 11000 && err.keyPattern) {
+      const field = Object.keys(err.keyPattern)[0];
       res.status(409).json({
         success: false,
         error: {
@@ -162,8 +166,8 @@ export async function register(req: Request, res: Response): Promise<void> {
     }
 
     // Handle Mongoose validation errors
-    if (error.name === 'ValidationError') {
-      const firstError = Object.values(error.errors)[0] as any;
+    if (err.name === 'ValidationError' && err.errors) {
+      const firstError = Object.values(err.errors)[0];
       res.status(400).json({
         success: false,
         error: {
@@ -182,6 +186,107 @@ export async function register(req: Request, res: Response): Promise<void> {
       error: {
         code: 'INTERNAL_ERROR',
         message: 'An error occurred during registration',
+        details: {}
+      }
+    });
+  }
+}
+
+/**
+ * Login user with email/username and password
+ * POST /api/v1/auth/login
+ */
+export async function login(req: Request, res: Response): Promise<void> {
+  try {
+    const { email, username, password } = req.body;
+
+    // Validate required fields (check for undefined/null, not empty strings)
+    // Empty strings are treated as invalid credentials (401) for security
+    if (password === undefined || password === null) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Password is required',
+          details: { field: 'password', issue: 'Missing required field' }
+        }
+      });
+      return;
+    }
+
+    if ((email === undefined || email === null) && (username === undefined || username === null)) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Email or username is required',
+          details: { field: 'email/username', issue: 'Missing required field' }
+        }
+      });
+      return;
+    }
+
+    // Find user by email (priority) or username
+    let user;
+    if (email) {
+      // Email lookup (case-insensitive)
+      user = await User.findOne({ email: email.toLowerCase().trim() });
+    } else if (username) {
+      // Username lookup (case-sensitive)
+      user = await User.findOne({ username: username.trim() });
+    }
+
+    // Security: Generic error message if user not found (don't reveal which field failed)
+    if (!user) {
+      res.status(401).json({
+        success: false,
+        error: {
+          code: 'UNAUTHORIZED',
+          message: 'Invalid credentials'
+        }
+      });
+      return;
+    }
+
+    // Verify password with bcrypt
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+
+    // Security: Same generic error if password is wrong
+    if (!isPasswordValid) {
+      res.status(401).json({
+        success: false,
+        error: {
+          code: 'UNAUTHORIZED',
+          message: 'Invalid credentials'
+        }
+      });
+      return;
+    }
+
+    // Generate JWT token
+    const token = generateToken(user._id.toString(), user.username);
+
+    // Return success response with token and user data
+    res.status(200).json({
+      success: true,
+      data: {
+        token,
+        user: {
+          userId: user._id.toString(),
+          username: user.username,
+          email: user.email
+        }
+      },
+      message: 'Login successful'
+    });
+  } catch (error: unknown) {
+    // Generic server error
+    console.error('Login error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred during login',
         details: {}
       }
     });

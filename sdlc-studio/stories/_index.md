@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 25 |
+| Draft | 23 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 1 |
+| Done | 3 |
 | **Total** | **26** |
 
 ---
@@ -25,7 +25,7 @@
 
 | ID | Title | Status | Points | Owner |
 |----|-------|--------|--------|-------|
-| [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | Draft | 3 | Richard |
+| [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | Done | 3 | Richard |
 | [US0002](US0002-user-login-jwt.md) | User Login API with JWT Token Generation | Draft | 3 | Richard |
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | Draft | 2 | Richard |
 | US0004 | Input Validation Middleware | Draft | 2 | Richard |
@@ -53,7 +53,7 @@
 
 | ID | Title | Status | Points | Persona |
 |----|-------|--------|--------|---------|
-| US0011 | Photo Model and MongoDB Schema | Draft | 2 | Internal |
+| [US0011](US0011-photo-model-mongodb-schema.md) | Photo Model and MongoDB Schema | Done | 2 | Internal |
 | US0012 | Photo Upload API with S3 Integration | Draft | 5 | Alex (Photographer) |
 | [US0013](US0013-file-validation.md) | File Validation (Type, Size, Format) | Done | 2 | All |
 | US0014 | Photo Deletion (MongoDB + S3 Cleanup) | Draft | 2 | Alex (Photographer) |
@@ -100,7 +100,7 @@
 
 | ID | Title | Epic | Owner | Points | Status |
 |----|-------|------|-------|--------|--------|
-| [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | EP0001 | Richard | 3 | Draft |
+| [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | EP0001 | Richard | 3 | Done |
 | [US0002](US0002-user-login-jwt.md) | User Login API with JWT | EP0001 | Richard | 3 | Draft |
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | EP0001 | Richard | 2 | Draft |
 | US0004 | Input Validation Middleware | EP0001 | Richard | 2 | Draft |
@@ -110,7 +110,7 @@
 | US0008 | Edit Profile API and UI | EP0002 | Mark | 3 | Draft |
 | US0009 | Upload/Update Profile Picture | EP0002 | Mark | 3 | Draft |
 | US0010 | Profile Page Routing | EP0002 | Mark | 2 | Draft |
-| US0011 | Photo Model and Schema | EP0003 | Ethel | 2 | Draft |
+| [US0011](US0011-photo-model-mongodb-schema.md) | Photo Model and Schema | EP0003 | Ethel | 2 | Done |
 | US0012 | Photo Upload API with S3 | EP0003 | Ethel | 5 | Draft |
 | [US0013](US0013-file-validation.md) | File Validation | EP0003 | Ethel | 2 | Done |
 | US0014 | Photo Deletion | EP0003 | Ethel | 2 | Draft |
