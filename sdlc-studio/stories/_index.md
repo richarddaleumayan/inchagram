@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 12 |
+| Draft | 11 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 14 |
+| Done | 15 |
 | **Total** | **26** |
 
 ---
@@ -42,7 +42,7 @@
 | US0007 | Profile Photo Grid Component | Draft | 3 | Alex (Photographer) |
 | US0008 | Edit Profile API and UI | Draft | 3 | Jamie (Casual) |
 | US0009 | Upload/Update Profile Picture | Draft | 3 | All |
-| US0010 | Profile Page Routing and Navigation | Draft | 2 | All |
+| [US0010](US0010-profile-page-routing.md) | Profile Page Routing and Navigation | Done | 2 | All |
 
 **Coordination:** Mark coordinates with Ethel on shared upload component (US0009 uses US0012 logic)
 
@@ -109,7 +109,7 @@
 | US0007 | Profile Photo Grid Component | EP0002 | Mark | 3 | Draft |
 | US0008 | Edit Profile API and UI | EP0002 | Mark | 3 | Draft |
 | US0009 | Upload/Update Profile Picture | EP0002 | Mark | 3 | Draft |
-| US0010 | Profile Page Routing | EP0002 | Mark | 2 | Draft |
+| [US0010](US0010-profile-page-routing.md) | Profile Page Routing | EP0002 | Mark | 2 | Done |
 | [US0011](US0011-photo-model-mongodb-schema.md) | Photo Model and Schema | EP0003 | Ethel | 2 | Done |
 | [US0012](US0012-photo-upload-api-s3.md) | Photo Upload API with S3 | EP0003 | Ethel | 5 | Done |
 | [US0013](US0013-file-validation.md) | File Validation | EP0003 | Ethel | 2 | Done |
