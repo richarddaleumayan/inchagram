@@ -1,0 +1,235 @@
+/**
+ * PhotoUpload Component Styles
+ */
+
+.photo-upload-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.photo-upload-container h2 {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #262626;
+}
+
+.photo-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #262626;
+}
+
+/* File Input */
+.file-input {
+  display: none;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #0095f6;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.file-input-label:hover {
+  background: #1877f2;
+}
+
+.file-input-label:active {
+  background: #0078d4;
+}
+
+.file-hint {
+  font-size: 0.85rem;
+  color: #8e8e8e;
+  margin: 0;
+}
+
+/* Preview */
+.preview-container {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Caption Input */
+.caption-input {
+  padding: 0.75rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.caption-input:focus {
+  outline: none;
+  border-color: #0095f6;
+}
+
+.caption-input:disabled {
+  background: #fafafa;
+  cursor: not-allowed;
+}
+
+.caption-counter {
+  font-size: 0.85rem;
+  color: #8e8e8e;
+  margin: 0;
+  text-align: right;
+}
+
+/* Progress Bar */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #efefef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #0095f6;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  font-size: 0.85rem;
+  color: #8e8e8e;
+  margin: 0;
+  text-align: center;
+}
+
+/* Alert Messages */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+}
+
+.alert-error {
+  background: #ffebeb;
+  color: #ed4956;
+  border: 1px solid #ed4956;
+}
+
+.alert-success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #4caf50;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #0095f6;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1877f2;
+}
+
+.btn-primary:active:not(:disabled) {
+  background: #0078d4;
+}
+
+.btn-secondary {
+  background: #fafafa;
+  color: #262626;
+  border: 1px solid #dbdbdb;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #efefef;
+}
+
+.btn-secondary:active:not(:disabled) {
+  background: #dbdbdb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .photo-upload-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
