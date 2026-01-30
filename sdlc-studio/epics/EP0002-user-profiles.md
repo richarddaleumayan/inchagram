@@ -166,13 +166,13 @@ Users need to showcase their identity and photography work. Profiles serve as a 
 ## Story Breakdown
 
 - [x] US0006: View User Profile API (GET /users/:userId) - 2 points ✅
-- [ ] US0007: Profile Photo Grid Component - 3 points
-- [ ] US0008: Edit Profile API and UI - 3 points
+- [x] US0007: Profile Photo Grid Component - 3 points ✅
+- [x] US0008: Edit Profile API and UI - 3 points ✅
 - [ ] US0009: Upload/Update Profile Picture - 3 points
 - [x] US0010: Profile Page Routing and Navigation - 2 points ✅
 
 **Total Story Points:** 13
-**Completed:** 4/13 points (31%)
+**Completed:** 10/13 points (77%)
 **Note:** US0009 reuses upload logic from US0012 (Ethel's photo upload)
 
 ---
