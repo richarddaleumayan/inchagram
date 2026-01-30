@@ -89,7 +89,7 @@ export function PhotoUpload() {
     }
 
     // Get JWT token from localStorage
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       setError('You must be logged in to upload photos.');
       return;
