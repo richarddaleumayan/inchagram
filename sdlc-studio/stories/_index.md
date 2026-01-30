@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 14 |
+| Draft | 12 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 12 |
+| Done | 14 |
 | **Total** | **26** |
 
 ---
@@ -28,7 +28,7 @@
 | [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | Done | 3 | Richard |
 | [US0002](US0002-user-login-jwt.md) | User Login API with JWT Token Generation | Done | 3 | Richard |
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | Done | 2 | Richard |
-| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | Draft | 2 | Richard |
+| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | Done | 2 | Richard |
 | [US0005](US0005-get-current-user-endpoint.md) | Get Current User Endpoint (/auth/me) | Done | 3 | Richard |
 
 ---
@@ -68,10 +68,10 @@
 
 | ID | Title | Status | Points | Persona |
 |----|-------|--------|--------|---------|
-| US0016 | Like/Unlike Photo API Endpoints | Draft | 2 | All |
+| [US0016](US0016-like-unlike-photo-api.md) | Like/Unlike Photo API Endpoints | Done | 2 | All |
 | [US0017](US0017-like-model.md) | Like Model and Denormalized Count Logic | Done | 2 | Internal |
 | US0018 | View Photo Likes List | Draft | 2 | Alex (Photographer) |
-| US0019 | Follow/Unfollow User API Endpoints | Draft | 2 | Taylor (Curator) |
+| [US0019](US0019-follow-unfollow-user-api.md) | Follow/Unfollow User API Endpoints | Done | 2 | Taylor (Curator) |
 | [US0020](US0020-follow-model.md) | Follow Model with Self-Follow Validation | Done | 2 | Internal |
 | US0021 | Like Button Component (Frontend) | Draft | 2 | All |
 | US0022 | Follow Button Component (Frontend) | Draft | 1 | All |
@@ -103,7 +103,7 @@
 | [US0001](US0001-user-registration-api.md) | User Registration API Endpoint | EP0001 | Richard | 3 | Done |
 | [US0002](US0002-user-login-jwt.md) | User Login API with JWT | EP0001 | Richard | 3 | Done |
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | EP0001 | Richard | 2 | Done |
-| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | EP0001 | Richard | 2 | Draft |
+| [US0004](US0004-input-validation-middleware.md) | Input Validation Middleware | EP0001 | Richard | 2 | Done |
 | [US0005](US0005-get-current-user-endpoint.md) | Get Current User Endpoint | EP0001 | Richard | 3 | Done |
 | [US0006](US0006-view-user-profile-api.md) | View User Profile API | EP0002 | Mark | 2 | Done |
 | US0007 | Profile Photo Grid Component | EP0002 | Mark | 3 | Draft |
@@ -115,10 +115,10 @@
 | [US0013](US0013-file-validation.md) | File Validation | EP0003 | Ethel | 2 | Done |
 | [US0014](US0014-photo-deletion.md) | Photo Deletion | EP0003 | Ethel | 2 | Done |
 | [US0015](US0015-photo-upload-frontend.md) | Photo Upload Frontend | EP0003 | Ethel | 2 | Done |
-| US0016 | Like/Unlike Photo API | EP0004 | Neildren | 2 | Draft |
+| [US0016](US0016-like-unlike-photo-api.md) | Like/Unlike Photo API | EP0004 | Neildren | 2 | Done |
 | [US0017](US0017-like-model.md) | Like Model and Count Logic | EP0004 | Neildren | 2 | Done |
 | US0018 | View Photo Likes List | EP0004 | Neildren | 2 | Draft |
-| US0019 | Follow/Unfollow User API | EP0004 | Neildren | 2 | Draft |
+| [US0019](US0019-follow-unfollow-user-api.md) | Follow/Unfollow User API | EP0004 | Neildren | 2 | Done |
 | [US0020](US0020-follow-model.md) | Follow Model with Validation | EP0004 | Neildren | 2 | Done |
 | US0021 | Like Button Component | EP0004 | Neildren | 2 | Draft |
 | US0022 | Follow Button Component | EP0004 | Neildren | 1 | Draft |
