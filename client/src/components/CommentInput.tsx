@@ -4,11 +4,9 @@
  */
 
 import { useState, FormEvent } from 'react';
-import { apiUrl } from '../config/api';
 import type { CommentData } from '../types/comment';
 import { apiUrl } from '../config/api';
 import './CommentInput.css';
-import { apiUrl } from '../config/api';
 
 interface CommentInputProps {
   photoId: string;

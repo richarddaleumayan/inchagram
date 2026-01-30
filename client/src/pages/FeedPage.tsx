@@ -5,15 +5,11 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { apiUrl } from '../config/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { apiUrl } from '../config/api';
 import { PhotoCard } from '../components/PhotoCard';
-import { apiUrl } from '../config/api';
 import { EmptyState } from '../components/EmptyState';
 import { apiUrl } from '../config/api';
 import './FeedPage.css';
-import { apiUrl } from '../config/api';
 
 type FeedType = 'following' | 'discover';
 
