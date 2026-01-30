@@ -2,9 +2,10 @@
  * Like Controller
  * Handles like and unlike operations for photos
  * Story: US0016 - Like/Unlike Photo API Endpoints
+ * Story: US0018 - View Photo Likes List
  */
 
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Like from '../models/Like';
 import Photo from '../models/Photo';
@@ -156,6 +157,99 @@ export async function unlikePhoto(req: AuthRequest, res: Response): Promise<void
       error: {
         code: 'INTERNAL_ERROR',
         message: 'Failed to unlike photo'
+      }
+    });
+  }
+}
+
+/**
+ * Get users who liked a photo
+ * GET /api/v1/photos/:photoId/likes
+ * Story: US0018 - View Photo Likes List
+ */
+export async function getPhotoLikes(req: Request, res: Response): Promise<void> {
+  try {
+    const { photoId } = req.params;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const skip = (page - 1) * limit;
+
+    // Validate photoId format
+    if (!mongoose.Types.ObjectId.isValid(photoId)) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Invalid photo ID format'
+        }
+      });
+      return;
+    }
+
+    // Check if photo exists
+    const photo = await Photo.findById(photoId);
+    if (!photo) {
+      res.status(404).json({
+        success: false,
+        error: {
+          code: 'NOT_FOUND',
+          message: 'Photo not found'
+        }
+      });
+      return;
+    }
+
+    // Get likes with user info, sorted by most recent first
+    const likes = await Like.find({ photoId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('userId', 'username displayName profilePictureUrl');
+
+    // Get total count for pagination
+    const totalLikes = await Like.countDocuments({ photoId });
+    const totalPages = Math.ceil(totalLikes / limit);
+
+    // Map to response format
+    const users = likes.map(like => {
+      const user = like.userId as unknown as {
+        _id: mongoose.Types.ObjectId;
+        username: string;
+        displayName?: string;
+        profilePictureUrl?: string;
+      };
+      return {
+        userId: user._id,
+        username: user.username,
+        displayName: user.displayName || null,
+        profilePictureUrl: user.profilePictureUrl || null,
+        likedAt: like.createdAt
+      };
+    });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        photoId,
+        likeCount: photo.likeCount,
+        users,
+        pagination: {
+          page,
+          limit,
+          totalLikes,
+          totalPages,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Get photo likes error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Failed to get photo likes'
       }
     });
   }
