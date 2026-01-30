@@ -6,7 +6,7 @@
 import { Request, Response } from 'express';
 import Photo from '../models/Photo';
 import { validatePhotoFile } from '../utils/validation';
-import { uploadToS3, generateS3Key } from '../services/s3Service';
+import { uploadToS3, generateS3Key, deleteFromS3, extractS3Key } from '../services/s3Service';
 
 /**
  * Upload photo
@@ -62,7 +62,7 @@ export async function uploadPhoto(req: Request, res: Response): Promise<void> {
     }
 
     // Get authenticated user ID from JWT middleware
-    const userId = (req as Express.Request & { user: { userId: string } }).user.userId;
+    const userId = (req as any).user.userId;
 
     // Generate S3 key
     const s3Key = generateS3Key(userId, req.file.mimetype);
@@ -158,6 +158,74 @@ export async function getPhoto(req: Request, res: Response): Promise<void> {
       error: {
         code: 'INTERNAL_ERROR',
         message: 'Failed to retrieve photo',
+      },
+    });
+  }
+}
+
+/**
+ * Delete photo
+ * DELETE /api/v1/photos/:photoId
+ * @param req Express request
+ * @param res Express response
+ */
+export async function deletePhoto(req: Request, res: Response): Promise<void> {
+  try {
+    const { photoId } = req.params;
+    const userId = (req as any).user.userId;
+
+    // Find photo
+    const photo = await Photo.findById(photoId);
+
+    if (!photo) {
+      res.status(404).json({
+        success: false,
+        error: {
+          code: 'NOT_FOUND',
+          message: 'Photo not found',
+        },
+      });
+      return;
+    }
+
+    // Check ownership - only owner can delete
+    if (photo.userId.toString() !== userId) {
+      res.status(403).json({
+        success: false,
+        error: {
+          code: 'FORBIDDEN',
+          message: 'You do not have permission to delete this photo',
+        },
+      });
+      return;
+    }
+
+    // Extract S3 key from imageUrl
+    const s3Key = extractS3Key(photo.imageUrl);
+
+    // Delete from MongoDB first
+    await Photo.findByIdAndDelete(photoId);
+
+    // Delete from S3 (best effort - don't fail if S3 delete fails)
+    if (s3Key) {
+      const s3DeleteSuccess = await deleteFromS3(s3Key);
+      if (!s3DeleteSuccess) {
+        console.warn(`Failed to delete S3 object: ${s3Key}`);
+        // Continue anyway - MongoDB record is already deleted
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Photo deleted successfully',
+    });
+  } catch (error) {
+    console.error('Delete photo error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Failed to delete photo',
       },
     });
   }
