@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 20 |
+| Draft | 15 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 6 |
+| Done | 11 |
 | **Total** | **26** |
 
 ---
@@ -56,7 +56,7 @@
 | [US0011](US0011-photo-model-mongodb-schema.md) | Photo Model and MongoDB Schema | Done | 2 | Internal |
 | [US0012](US0012-photo-upload-api-s3.md) | Photo Upload API with S3 Integration | Done | 5 | Alex (Photographer) |
 | [US0013](US0013-file-validation.md) | File Validation (Type, Size, Format) | Done | 2 | All |
-| US0014 | Photo Deletion (MongoDB + S3 Cleanup) | Draft | 2 | Alex (Photographer) |
+| [US0014](US0014-photo-deletion.md) | Photo Deletion (MongoDB + S3 Cleanup) | Done | 2 | Alex (Photographer) |
 | US0015 | Photo Upload Frontend Component | Draft | 2 | Jamie (Casual) |
 
 **Critical:** US0012 S3 upload logic is reused by US0009 (profile pictures)
@@ -113,7 +113,7 @@
 | [US0011](US0011-photo-model-mongodb-schema.md) | Photo Model and Schema | EP0003 | Ethel | 2 | Done |
 | [US0012](US0012-photo-upload-api-s3.md) | Photo Upload API with S3 | EP0003 | Ethel | 5 | Done |
 | [US0013](US0013-file-validation.md) | File Validation | EP0003 | Ethel | 2 | Done |
-| US0014 | Photo Deletion | EP0003 | Ethel | 2 | Draft |
+| [US0014](US0014-photo-deletion.md) | Photo Deletion | EP0003 | Ethel | 2 | Done |
 | US0015 | Photo Upload Frontend | EP0003 | Ethel | 2 | Draft |
 | US0016 | Like/Unlike Photo API | EP0004 | Neildren | 2 | Draft |
 | [US0017](US0017-like-model.md) | Like Model and Count Logic | EP0004 | Neildren | 2 | Done |
