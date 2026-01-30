@@ -197,7 +197,7 @@ const photos = await Photo.find({})
 
 ## Story Breakdown
 
-- [ ] US0023: Personalized Feed API Endpoint - 3 points
+- [x] [US0023: Personalized Feed API Endpoint](../stories/US0023-personalized-feed-api.md) - 3 points - **Done**
 - [ ] US0024: Discovery Feed API Endpoint - 2 points
 - [ ] US0025: Photo Card Component for Feeds - 2 points
 - [ ] US0026: Feed Page with Infinite Scroll - 3 points
@@ -205,6 +205,8 @@ const photos = await Photo.find({})
 - [ ] US0028: Feed Query Optimization - 2 points
 
 **Total Story Points:** 13
+**Completed:** 3/13 points (23%)
+
 **Note:** Depends on US0011 (Photo model), US0017 (Like model), US0020 (Follow model), US0021 (Like button)
 
 ---
