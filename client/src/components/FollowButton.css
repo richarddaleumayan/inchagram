@@ -1,0 +1,22 @@
+/**
+ * Follow Button Styles
+ */
+
+.follow-button {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.follow-message {
+  font-size: 0.85rem;
+}
+
+.follow-message-auth {
+  color: #8e8e8e;
+}
+
+.follow-message-error {
+  color: #ed4956;
+}

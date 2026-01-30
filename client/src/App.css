@@ -157,6 +157,20 @@
   background: #dbdbdb;
 }
 
+.btn-danger {
+  background: #ed4956;
+  color: #ffffff;
+  border: 1px solid #ed4956;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #c93442;
+}
+
+.btn-danger:active:not(:disabled) {
+  background: #b42835;
+}
+
 .btn-block {
   width: 100%;
 }
