@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 14 |
+| Draft | 13 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 12 |
+| Done | 13 |
 | **Total** | **26** |
 
 ---
@@ -71,7 +71,7 @@
 | [US0016](US0016-like-unlike-photo-api.md) | Like/Unlike Photo API Endpoints | Done | 2 | All |
 | [US0017](US0017-like-model.md) | Like Model and Denormalized Count Logic | Done | 2 | Internal |
 | US0018 | View Photo Likes List | Draft | 2 | Alex (Photographer) |
-| US0019 | Follow/Unfollow User API Endpoints | Draft | 2 | Taylor (Curator) |
+| [US0019](US0019-follow-unfollow-user-api.md) | Follow/Unfollow User API Endpoints | Done | 2 | Taylor (Curator) |
 | [US0020](US0020-follow-model.md) | Follow Model with Self-Follow Validation | Done | 2 | Internal |
 | US0021 | Like Button Component (Frontend) | Draft | 2 | All |
 | US0022 | Follow Button Component (Frontend) | Draft | 1 | All |
@@ -118,7 +118,7 @@
 | [US0016](US0016-like-unlike-photo-api.md) | Like/Unlike Photo API | EP0004 | Neildren | 2 | Done |
 | [US0017](US0017-like-model.md) | Like Model and Count Logic | EP0004 | Neildren | 2 | Done |
 | US0018 | View Photo Likes List | EP0004 | Neildren | 2 | Draft |
-| US0019 | Follow/Unfollow User API | EP0004 | Neildren | 2 | Draft |
+| [US0019](US0019-follow-unfollow-user-api.md) | Follow/Unfollow User API | EP0004 | Neildren | 2 | Done |
 | [US0020](US0020-follow-model.md) | Follow Model with Validation | EP0004 | Neildren | 2 | Done |
 | US0021 | Like Button Component | EP0004 | Neildren | 2 | Draft |
 | US0022 | Follow Button Component | EP0004 | Neildren | 1 | Draft |
