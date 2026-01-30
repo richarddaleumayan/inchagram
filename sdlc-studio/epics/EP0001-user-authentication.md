@@ -1,9 +1,10 @@
 # EP0001: User Authentication & Account Management
 
-> **Status:** Draft
+> **Status:** Done
 > **Owner:** Richard
 > **Reviewer:** TBD
 > **Created:** 2026-01-30
+> **Completed:** 2026-01-30
 > **Target Release:** v0.1.0
 
 ## Summary

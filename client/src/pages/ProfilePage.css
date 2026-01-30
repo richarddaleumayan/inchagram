@@ -154,6 +154,14 @@
   margin: 0 auto;
 }
 
+/* Action Buttons */
+.profile-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
 /* Stats */
 .profile-stats {
   display: flex;

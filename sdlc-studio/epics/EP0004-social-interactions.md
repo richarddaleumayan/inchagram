@@ -1,9 +1,10 @@
 # EP0004: Social Interactions (Likes & Follows)
 
-> **Status:** Draft
+> **Status:** Done
 > **Owner:** Neildren
 > **Reviewer:** TBD
 > **Created:** 2026-01-30
+> **Completed:** 2026-01-30
 > **Target Release:** v0.1.0
 
 ## Summary
@@ -199,15 +200,16 @@ Users need ways to show appreciation for photos (likes) and curate their feed by
 
 ## Story Breakdown
 
-- [ ] US0016: Like/Unlike Photo API Endpoints - 2 points
-- [ ] US0017: Like Model and Denormalized Count Logic - 2 points
-- [ ] US0018: View Photo Likes List - 2 points
-- [ ] US0019: Follow/Unfollow User API Endpoints - 2 points
-- [ ] US0020: Follow Model with Self-Follow Validation - 2 points
-- [ ] US0021: Like Button Component (Frontend) - 2 points
-- [ ] US0022: Follow Button Component (Frontend) - 1 point
+- [x] US0016: Like/Unlike Photo API Endpoints - 2 points ✅
+- [x] US0017: Like Model and Denormalized Count Logic - 2 points ✅
+- [x] US0018: View Photo Likes List - 2 points ✅
+- [x] US0019: Follow/Unfollow User API Endpoints - 2 points ✅
+- [x] US0020: Follow Model with Self-Follow Validation - 2 points ✅
+- [x] US0021: Like Button Component (Frontend) - 2 points ✅
+- [x] US0022: Follow Button Component (Frontend) - 1 point ✅
 
 **Total Story Points:** 13
+**Completed:** 13/13 points (100%) ✅
 **Note:** US0021 (Like Button) is reused by US0025 (Photo Card in feeds)
 
 ---

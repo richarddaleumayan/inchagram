@@ -1,9 +1,10 @@
 # EP0003: Photo Upload & Storage
 
-> **Status:** Draft
+> **Status:** Done
 > **Owner:** Ethel
 > **Reviewer:** TBD
 > **Created:** 2026-01-30
+> **Completed:** 2026-01-30
 > **Target Release:** v0.1.0
 
 ## Summary
@@ -187,13 +188,14 @@ const s3Client = new S3Client({
 
 ## Story Breakdown
 
-- [ ] US0011: Photo Model and MongoDB Schema - 2 points
-- [ ] US0012: Photo Upload API with S3 Integration - 5 points
-- [ ] US0013: File Validation (Type, Size, Format) - 2 points
-- [ ] US0014: Photo Deletion (MongoDB + S3 Cleanup) - 2 points
-- [ ] US0015: Photo Upload Frontend Component - 2 points
+- [x] US0011: Photo Model and MongoDB Schema - 2 points ✅
+- [x] US0012: Photo Upload API with S3 Integration - 5 points ✅
+- [x] US0013: File Validation (Type, Size, Format) - 2 points ✅
+- [x] US0014: Photo Deletion (MongoDB + S3 Cleanup) - 2 points ✅
+- [x] US0015: Photo Upload Frontend Component - 2 points ✅
 
 **Total Story Points:** 13
+**Completed:** 13/13 points (100%) ✅
 **Note:** US0012 creates reusable upload service used by US0009 (profile pictures)
 
 ---

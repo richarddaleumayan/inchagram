@@ -5,11 +5,13 @@
  * Updated: US0007 - Profile Photo Grid Component
  * Updated: US0008 - Edit Profile API and UI
  * Updated: US0009 - Upload/Update Profile Picture
+ * Updated: US0022 - Follow Button Component
  */
 
 import { useEffect, useState } from 'react';
 import { PhotoGrid } from '../components/PhotoGrid';
 import { EditProfileModal } from '../components/EditProfileModal';
+import { FollowButton } from '../components/FollowButton';
 import './ProfilePage.css';
 
 interface ProfileData {
@@ -189,16 +191,31 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
               )}
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
-              {/* Edit Profile Button (own profile only) */}
-              {isOwnProfile && (
-                <button
-                  className="btn btn-secondary btn-sm profile-edit-button"
-                  onClick={() => setIsEditModalOpen(true)}
-                  data-testid="edit-profile-button"
-                >
-                  Edit Profile
-                </button>
-              )}
+              {/* Action Buttons */}
+              <div className="profile-actions">
+                {/* Edit Profile Button (own profile only) */}
+                {isOwnProfile && (
+                  <button
+                    className="btn btn-secondary btn-sm profile-edit-button"
+                    onClick={() => setIsEditModalOpen(true)}
+                    data-testid="edit-profile-button"
+                  >
+                    Edit Profile
+                  </button>
+                )}
+
+                {/* Follow Button (other profiles only) */}
+                {!isOwnProfile && (
+                  <FollowButton
+                    userId={profile.userId}
+                    initialIsFollowing={false}
+                    onFollowChange={(isFollowing) => {
+                      // Optionally update follower count here
+                      console.log('Follow state changed:', isFollowing);
+                    }}
+                  />
+                )}
+              </div>
             </div>
 
             {/* Stats */}

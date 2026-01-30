@@ -1,0 +1,111 @@
+/**
+ * FollowButton Component Styles
+ * Story: US0022 - Follow Button Component
+ */
+
+.follow-button-container {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.follow-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  padding: 8px 16px;
+  border: 1px solid #dbdbdb;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+}
+
+.follow-button.not-following {
+  background: #0095f6;
+  color: white;
+  border-color: #0095f6;
+}
+
+.follow-button.not-following:hover:not(:disabled) {
+  background: #1877f2;
+  border-color: #1877f2;
+}
+
+.follow-button.following {
+  background: transparent;
+  color: #262626;
+  border-color: #dbdbdb;
+}
+
+.follow-button.following:hover:not(:disabled) {
+  background: #fafafa;
+  border-color: #dbdbdb;
+}
+
+.follow-button:focus {
+  outline: 2px solid #0095f6;
+  outline-offset: 2px;
+}
+
+.follow-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.follow-button.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.follow-button:disabled {
+  cursor: not-allowed;
+}
+
+.follow-error {
+  margin-top: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #ed4956;
+  background-color: #fef2f2;
+  border-radius: 4px;
+  max-width: 200px;
+  text-align: center;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .follow-button {
+    color: #fafafa;
+    border-color: #3a3a3a;
+  }
+
+  .follow-button.not-following {
+    background: #0095f6;
+    color: white;
+    border-color: #0095f6;
+  }
+
+  .follow-button.not-following:hover:not(:disabled) {
+    background: #1877f2;
+    border-color: #1877f2;
+  }
+
+  .follow-button.following {
+    background: transparent;
+    color: #fafafa;
+    border-color: #3a3a3a;
+  }
+
+  .follow-button.following:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #3a3a3a;
+  }
+
+  .follow-error {
+    background-color: #2a1f1f;
+  }
+}
