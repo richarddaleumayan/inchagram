@@ -85,7 +85,7 @@
 
 | ID | Title | Status | Points | Persona |
 |----|-------|--------|--------|---------|
-| US0023 | Personalized Feed API Endpoint | Draft | 3 | All |
+| [US0023](US0023-personalized-feed-api.md) | Personalized Feed API Endpoint | Done | 3 | All |
 | US0024 | Discovery Feed API Endpoint | Draft | 2 | Taylor (Curator) |
 | US0025 | Photo Card Component for Feeds | Draft | 2 | All |
 | US0026 | Feed Page with Infinite Scroll | Draft | 3 | Morgan (Mindful) |
@@ -122,7 +122,7 @@
 | [US0020](US0020-follow-model.md) | Follow Model with Validation | EP0004 | Neildren | 2 | Done |
 | US0021 | Like Button Component | EP0004 | Neildren | 2 | Draft |
 | US0022 | Follow Button Component | EP0004 | Neildren | 1 | Draft |
-| US0023 | Personalized Feed API | EP0005 | Richard | 3 | Draft |
+| [US0023](US0023-personalized-feed-api.md) | Personalized Feed API | EP0005 | Richard | 3 | Done |
 | US0024 | Discovery Feed API | EP0005 | Richard | 2 | Draft |
 | US0025 | Photo Card Component | EP0005 | Richard | 2 | Draft |
 | US0026 | Feed Page with Infinite Scroll | EP0005 | Richard | 3 | Draft |
