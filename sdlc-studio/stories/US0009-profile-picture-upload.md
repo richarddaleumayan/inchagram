@@ -1,6 +1,6 @@
 # US0009: Upload/Update Profile Picture
 
-> **Status:** Done ✅
+> **Status:** Done
 > **Epic:** [EP0002: User Profiles & Profile Management](../epics/EP0002-user-profiles.md)
 > **Owner:** Claude
 > **Created:** 2026-01-30
@@ -51,9 +51,30 @@ This story implements profile picture upload functionality, reusing the photo up
 
 ## Technical Implementation
 
-**Backend:** Extended PUT /api/v1/users/:userId to accept multipart/form-data with `profilePicture` field. Reused validation and S3 upload from photo upload.
+**Backend (PUT /api/v1/users/:userId/profile-picture):**
+- Added separate endpoint for profile picture uploads with multer middleware
+- Validates file type (JPEG/PNG/WebP) and size (max 10MB) using validatePhotoFile
+- Generates S3 key: `avatars/${userId}/${timestamp}-${uuid}${extension}`
+- Uploads to S3 and updates user.profilePictureUrl
+- Authorization: Owner-only access
+- 10 comprehensive tests covering upload, replace, validation, authorization, S3 failure
 
-**Frontend:** Added profile picture upload to EditProfileModal with preview and file selection.
+**Frontend:**
+- Updated EditProfileModal to accept currentProfilePicture prop
+- Added profile picture preview with FileReader API for instant visual feedback
+- File selection via hidden input + "Choose Photo" button
+- Client-side validation: JPEG/PNG/WebP, max 10MB
+- Sequential upload: text fields first, then profile picture if selected
+- Circular preview with placeholder icon when no picture
+- Updated ProfilePage to pass profilePictureUrl to modal
+
+**Files Modified:**
+- src/controllers/profileController.ts (updateProfilePicture function)
+- src/routes/users.ts (profile-picture endpoint with multer)
+- tests/integration/profile.picture.test.ts (10 tests)
+- client/src/components/EditProfileModal.tsx (picture upload UI)
+- client/src/components/EditProfileModal.css (preview styling, dark mode)
+- client/src/pages/ProfilePage.tsx (currentProfilePicture prop)
 
 **Story Points:** 3
 **Completed:** All acceptance criteria met ✅

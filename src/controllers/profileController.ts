@@ -5,9 +5,12 @@
 
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 import User from '../models/User';
 import Photo from '../models/Photo';
 import { AuthRequest } from '../middleware/authMiddleware';
+import { validatePhotoFile, getExtensionFromMimeType } from '../utils/validation';
+import { uploadToS3 } from '../services/s3Service';
 
 /**
  * Get user profile by ID
@@ -376,6 +379,148 @@ export async function updateUser(req: AuthRequest, res: Response): Promise<void>
       error: {
         code: 'INTERNAL_ERROR',
         message: 'An error occurred while updating profile',
+        details: {}
+      }
+    });
+  }
+}
+
+/**
+ * Update user profile picture
+ * PUT /api/v1/users/:userId/profile-picture
+ * Story: US0009 - Upload/Update Profile Picture
+ * Authorization: Owner only
+ */
+export async function updateProfilePicture(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    const { userId } = req.params;
+    const authenticatedUserId = req.user!.userId;
+    const file = req.file;
+
+    // Validate ObjectId format
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Invalid user ID format',
+          details: { userId }
+        }
+      });
+      return;
+    }
+
+    // Check authorization - only owner can update
+    if (userId !== authenticatedUserId) {
+      res.status(403).json({
+        success: false,
+        error: {
+          code: 'FORBIDDEN',
+          message: 'You can only update your own profile picture',
+          details: {}
+        }
+      });
+      return;
+    }
+
+    // Check if file exists
+    if (!file) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Profile picture file is required',
+          details: {}
+        }
+      });
+      return;
+    }
+
+    // Validate file
+    const validation = validatePhotoFile({
+      mimeType: file.mimetype,
+      filename: file.originalname,
+      size: file.size
+    });
+
+    if (!validation.isValid) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: validation.code || 'VALIDATION_ERROR',
+          message: validation.error || 'Invalid file',
+          details: {}
+        }
+      });
+      return;
+    }
+
+    // Generate S3 key for avatar
+    const timestamp = Date.now();
+    const uuid = uuidv4();
+    const extension = getExtensionFromMimeType(file.mimetype) || '.jpg';
+    const s3Key = `avatars/${userId}/${timestamp}-${uuid}${extension}`;
+
+    // Upload to S3
+    const uploadResult = await uploadToS3(file.buffer, s3Key, file.mimetype);
+
+    if (!uploadResult.success || !uploadResult.imageUrl) {
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'UPLOAD_FAILED',
+          message: uploadResult.error || 'Failed to upload profile picture to storage',
+          details: {}
+        }
+      });
+      return;
+    }
+
+    // Update user profile picture URL
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profilePictureUrl: uploadResult.imageUrl },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      res.status(404).json({
+        success: false,
+        error: {
+          code: 'NOT_FOUND',
+          message: 'User not found',
+          details: { userId }
+        }
+      });
+      return;
+    }
+
+    // Get photo count
+    const photoCount = await Photo.countDocuments({ userId: updatedUser._id });
+
+    // Return updated profile
+    res.status(200).json({
+      success: true,
+      data: {
+        userId: updatedUser._id.toString(),
+        username: updatedUser.username,
+        email: updatedUser.email,
+        displayName: updatedUser.displayName || null,
+        bio: updatedUser.bio || null,
+        profilePictureUrl: updatedUser.profilePictureUrl || null,
+        followerCount: 0,
+        followingCount: 0,
+        photoCount,
+        createdAt: updatedUser.createdAt.toISOString()
+      }
+    });
+  } catch (error: unknown) {
+    console.error('Update profile picture error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred while updating profile picture',
         details: {}
       }
     });

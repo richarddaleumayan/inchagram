@@ -4,6 +4,7 @@
  * Story: US0010 - Profile Page Routing and Navigation
  * Updated: US0007 - Profile Photo Grid Component
  * Updated: US0008 - Edit Profile API and UI
+ * Updated: US0009 - Upload/Update Profile Picture
  */
 
 import { useEffect, useState } from 'react';
@@ -229,6 +230,7 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
           onClose={() => setIsEditModalOpen(false)}
           currentDisplayName={profile.displayName}
           currentBio={profile.bio}
+          currentProfilePicture={profile.profilePictureUrl}
           userId={profile.userId}
           onSuccess={handleEditSuccess}
         />

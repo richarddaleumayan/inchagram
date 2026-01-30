@@ -1,9 +1,10 @@
 # EP0002: User Profiles & Profile Management
 
-> **Status:** Draft
+> **Status:** Done
 > **Owner:** Mark
 > **Reviewer:** TBD
 > **Created:** 2026-01-30
+> **Completed:** 2026-01-30
 > **Target Release:** v0.1.0
 
 ## Summary
@@ -168,11 +169,11 @@ Users need to showcase their identity and photography work. Profiles serve as a 
 - [x] US0006: View User Profile API (GET /users/:userId) - 2 points ✅
 - [x] US0007: Profile Photo Grid Component - 3 points ✅
 - [x] US0008: Edit Profile API and UI - 3 points ✅
-- [ ] US0009: Upload/Update Profile Picture - 3 points
+- [x] US0009: Upload/Update Profile Picture - 3 points ✅
 - [x] US0010: Profile Page Routing and Navigation - 2 points ✅
 
 **Total Story Points:** 13
-**Completed:** 10/13 points (77%)
+**Completed:** 13/13 points (100%) ✅
 **Note:** US0009 reuses upload logic from US0012 (Ethel's photo upload)
 
 ---
