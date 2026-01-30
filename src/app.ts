@@ -6,6 +6,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth';
+import photoRoutes from './routes/photos';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 
 const app: Application = express();
@@ -22,6 +23,7 @@ app.get('/health', (_req, res) => {
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/photos', photoRoutes);
 
 // Error handling
 app.use(notFoundHandler);
