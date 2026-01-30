@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/User';
 import { isValidEmail, isValidUsername, isValidPassword } from '../utils/validation';
 import { generateToken } from '../services/jwtService';
+import { AuthRequest } from '../middleware/authMiddleware';
 
 const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS || '10', 10);
 
@@ -288,6 +289,58 @@ export async function login(req: Request, res: Response): Promise<void> {
         code: 'INTERNAL_ERROR',
         message: 'An error occurred during login',
         details: {}
+      }
+    });
+  }
+}
+
+/**
+ * Get current authenticated user profile
+ * GET /api/v1/auth/me
+ * Requires: authenticateJWT middleware
+ */
+export async function getCurrentUser(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    // userId is populated by authenticateJWT middleware
+    const { userId } = req.user!;
+
+    // Fetch fresh user data from database (excluding passwordHash)
+    const user = await User.findById(userId).select('-passwordHash');
+
+    if (!user) {
+      // User was deleted after token was issued
+      res.status(404).json({
+        success: false,
+        error: {
+          code: 'NOT_FOUND',
+          message: 'User not found'
+        }
+      });
+      return;
+    }
+
+    // Return user profile
+    res.status(200).json({
+      success: true,
+      data: {
+        userId: user._id.toString(),
+        username: user.username,
+        email: user.email,
+        displayName: user.displayName || null,
+        bio: user.bio || null,
+        profilePictureUrl: user.profilePictureUrl || null,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      }
+    });
+  } catch (error: unknown) {
+    // Database or server error
+    console.error('Get current user error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred retrieving user profile'
       }
     });
   }
