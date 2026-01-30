@@ -88,8 +88,8 @@ export function CommentList({ photoId, currentUserId, newComment }: CommentListP
       const data: GetCommentsResponse = await response.json();
 
       if (response.ok && data.success && data.data) {
-        setComments((prev) => [...prev, ...data.data.comments]);
-        setHasMore(data.data.pagination.hasMore);
+        setComments((prev) => [...prev, ...data.data!.comments]);
+        setHasMore(data.data!.pagination.hasMore);
       }
     } catch (err) {
       console.error('Load more comments error:', err);
