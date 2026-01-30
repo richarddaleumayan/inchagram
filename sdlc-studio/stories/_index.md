@@ -8,12 +8,12 @@
 
 | Status | Count |
 |--------|-------|
-| Draft | 22 |
+| Draft | 21 |
 | Ready | 0 |
 | Planned | 0 |
 | In Progress | 0 |
 | Review | 0 |
-| Done | 4 |
+| Done | 5 |
 | **Total** | **26** |
 
 ---
@@ -38,7 +38,7 @@
 
 | ID | Title | Status | Points | Persona |
 |----|-------|--------|--------|---------|
-| US0006 | View User Profile API (GET /users/:userId) | Draft | 2 | Taylor (Curator) |
+| [US0006](US0006-view-user-profile-api.md) | View User Profile API (GET /users/:userId) | Done | 2 | Taylor (Curator) |
 | US0007 | Profile Photo Grid Component | Draft | 3 | Alex (Photographer) |
 | US0008 | Edit Profile API and UI | Draft | 3 | Jamie (Casual) |
 | US0009 | Upload/Update Profile Picture | Draft | 3 | All |
@@ -105,7 +105,7 @@
 | [US0003](US0003-jwt-auth-middleware.md) | JWT Authentication Middleware | EP0001 | Richard | 2 | Draft |
 | US0004 | Input Validation Middleware | EP0001 | Richard | 2 | Draft |
 | US0005 | Get Current User Endpoint | EP0001 | Richard | 3 | Draft |
-| US0006 | View User Profile API | EP0002 | Mark | 2 | Draft |
+| [US0006](US0006-view-user-profile-api.md) | View User Profile API | EP0002 | Mark | 2 | Done |
 | US0007 | Profile Photo Grid Component | EP0002 | Mark | 3 | Draft |
 | US0008 | Edit Profile API and UI | EP0002 | Mark | 3 | Draft |
 | US0009 | Upload/Update Profile Picture | EP0002 | Mark | 3 | Draft |
