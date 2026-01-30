@@ -9,6 +9,7 @@ import { uploadPhoto, getPhoto, deletePhoto } from '../controllers/photoControll
 import { likePhoto, unlikePhoto, getPhotoLikes } from '../controllers/likeController';
 import { getPersonalizedFeed, getDiscoveryFeed } from '../controllers/feedController';
 import { authenticateJWT } from '../middleware/authMiddleware';
+import { optionalAuth } from '../middleware/optionalAuth';
 import { MAX_FILE_SIZE } from '../utils/validation';
 
 const router = express.Router();
@@ -36,10 +37,10 @@ router.get('/feed', authenticateJWT, getPersonalizedFeed);
 /**
  * GET /api/v1/photos/discover
  * Get discovery feed (all photos from all users)
- * Public endpoint (no authentication required)
+ * Public endpoint (optional authentication for like status)
  * Query params: ?page=0&limit=20
  */
-router.get('/discover', getDiscoveryFeed);
+router.get('/discover', optionalAuth, getDiscoveryFeed);
 
 /**
  * POST /api/v1/photos

@@ -20,6 +20,7 @@ interface Photo {
   username: string;
   profilePictureUrl?: string | null;
   likeCount: number;
+  isLiked: boolean;
   createdAt: string;
 }
 
@@ -54,7 +55,8 @@ export function FeedPage({ onNavigate }: FeedPageProps) {
       'Content-Type': 'application/json'
     };
 
-    if (token && activeTab === 'following') {
+    // Send auth token for both tabs so we can show which photos are liked
+    if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
 

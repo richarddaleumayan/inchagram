@@ -8,6 +8,7 @@ import { FeedPage } from './pages/FeedPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { VerifyEmailPage } from './pages/VerifyEmailPage';
 import { ThemeToggle } from './components/ThemeToggle';
+import { Logo } from './components/Logo';
 import './styles/design-system.css';
 import './App.css';
 
@@ -215,12 +216,17 @@ function App() {
       return (
         <div className="app-container">
           <div className="login-container">
-            <h1>inchagram</h1>
+            <Logo size="large" />
             <p className="subtitle">Check your email</p>
 
-            <div className="alert alert-success" style={{ marginBottom: '1.5rem' }}>
-              <span className="alert-icon">✉️</span>
-              We've sent a verification link to <strong>{verificationEmailSent}</strong>. Please check your inbox and click the link to verify your account.
+            <div className="alert alert-success" style={{ marginBottom: '1.5rem', display: 'block', textAlign: 'left' }}>
+              <div style={{ marginBottom: '0.5rem' }}>
+                <span className="alert-icon">✉️</span>
+                <strong>Check your email</strong>
+              </div>
+              <p style={{ margin: 0, lineHeight: '1.6' }}>
+                We've sent a verification link to <strong>{verificationEmailSent}</strong>. Please check your inbox and click the link to verify your account.
+              </p>
             </div>
 
             <p className="hint-text">
@@ -253,7 +259,7 @@ function App() {
     return (
       <div className="app-container">
         <div className="login-container">
-          <h1>inchagram</h1>
+          <Logo size="large" />
           <p className="subtitle">
             {authMode === 'login' ? 'Welcome back' : 'Create your account'}
           </p>
@@ -333,7 +339,7 @@ function App() {
     <div className="app-container">
       <header className="app-header">
         <div className="app-header-content">
-          <h1 className="app-logo">inchagram</h1>
+          <Logo size="medium" className="app-logo" />
           <nav className="app-nav">
             <button
               onClick={() => setActiveView('feed')}

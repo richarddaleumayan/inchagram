@@ -4,7 +4,7 @@
  * Story: US0021 - Like Button Component
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import './LikeButton.css';
 
 interface LikeButtonProps {
@@ -37,9 +37,18 @@ export function LikeButton({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Sync state with prop changes
+  useEffect(() => {
+    setIsLiked(initialIsLiked);
+  }, [initialIsLiked]);
+
+  useEffect(() => {
+    setLikeCount(initialLikeCount);
+  }, [initialLikeCount]);
+
   const handleClick = useCallback(async () => {
     // Check authentication
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       setError('Please log in to like photos');
       return;
@@ -56,13 +65,21 @@ export function LikeButton({
     const previousLikeCount = likeCount;
     const newIsLiked = !isLiked;
     const newLikeCount = isLiked ? likeCount - 1 : likeCount + 1;
+    const method = newIsLiked ? 'POST' : 'DELETE';
+
+    console.log('Like button clicked:', {
+      previousIsLiked,
+      newIsLiked,
+      method,
+      photoId
+    });
 
     setIsLiked(newIsLiked);
     setLikeCount(newLikeCount);
 
     try {
       const response = await fetch(`/api/v1/photos/${photoId}/like`, {
-        method: newIsLiked ? 'POST' : 'DELETE',
+        method,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -112,7 +129,9 @@ export function LikeButton({
         type="button"
       >
         <span className="like-icon" aria-hidden="true">
-          {isLiked ? '\u2764' : '\u2661'}
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
         </span>
         <span className="like-count">{likeCount}</span>
       </button>

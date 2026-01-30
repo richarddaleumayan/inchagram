@@ -76,6 +76,37 @@
   width: 100%;
   background-color: var(--bg-secondary);
   position: relative;
+  min-height: 400px;
+}
+
+.photo-card__image-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-secondary);
+}
+
+.photo-card__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .photo-card__image {
@@ -83,6 +114,15 @@
   height: auto;
   display: block;
   object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.photo-card__image.loading {
+  opacity: 0;
+}
+
+.photo-card__image.loaded {
+  opacity: 1;
 }
 
 /* ============================================
@@ -130,12 +170,38 @@
   color: var(--text-secondary);
 }
 
+.photo-card__view-comments {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: var(--spacing-xs) 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.photo-card__view-comments:hover {
+  color: var(--text-primary);
+}
+
 .photo-card__timestamp {
   display: block;
   font-size: var(--font-size-xs);
   color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-top: var(--spacing-xs);
+}
+
+/* ============================================
+   COMMENTS SECTION
+   ============================================ */
+
+.photo-card__comments {
+  border-top: 1px solid var(--border);
+  margin-top: var(--spacing-sm);
 }
 
 /* ============================================

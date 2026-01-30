@@ -150,7 +150,8 @@
 /* Mobile (portrait phones) */
 @media (max-width: 640px) {
   .feed-page__content {
-    padding: var(--spacing-md) var(--spacing-sm);
+    padding: 0;
+    max-width: 100%;
   }
 
   .feed-page__tabs {
@@ -163,7 +164,7 @@
   }
 
   .feed-page__photos {
-    gap: var(--spacing-lg);
+    gap: 0;
   }
 }
 

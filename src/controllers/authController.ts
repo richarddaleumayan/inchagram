@@ -265,7 +265,21 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    // Find user with this verification token
+    // First check if a user with this token exists and is already verified
+    const existingUser = await User.findOne({
+      verificationToken: token
+    }).select('+verificationToken +verificationTokenExpiry');
+
+    // Check if user is already verified
+    if (existingUser && existingUser.isVerified) {
+      res.status(200).json({
+        success: true,
+        message: 'Email already verified! You can log in now.'
+      });
+      return;
+    }
+
+    // Find user with this verification token that hasn't expired
     const user = await User.findOne({
       verificationToken: token,
       verificationTokenExpiry: { $gt: new Date() }
@@ -276,16 +290,14 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
         success: false,
         error: {
           code: 'INVALID_TOKEN',
-          message: 'Invalid or expired verification token'
+          message: 'Invalid or expired verification token. Please request a new verification email.'
         }
       });
       return;
     }
 
-    // Mark user as verified
+    // Mark user as verified (keep token for "already verified" message)
     user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationTokenExpiry = undefined;
     await user.save();
 
     res.status(200).json({

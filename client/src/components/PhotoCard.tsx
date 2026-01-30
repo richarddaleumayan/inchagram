@@ -1,12 +1,16 @@
 /**
  * PhotoCard Component
- * Displays a photo with user info, caption, and like button in feed
+ * Displays a photo with user info, caption, like button, and comments
  * Story: US0025 - Photo Card Component for Feeds
  */
 
 import { useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { LikeButton } from './LikeButton';
+import { CommentList } from './CommentList';
+import { CommentInput } from './CommentInput';
+import type { CommentData } from '../types/comment';
+import { getCurrentUserId } from '../utils/jwt';
 import './PhotoCard.css';
 
 export interface PhotoCardProps {
@@ -35,6 +39,9 @@ export function PhotoCard({
   onNavigate
 }: PhotoCardProps) {
   const [showFullCaption, setShowFullCaption] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [newComment, setNewComment] = useState<CommentData | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const MAX_CAPTION_LENGTH = 200;
 
   const shouldTruncate = caption.length > MAX_CAPTION_LENGTH;
@@ -43,11 +50,17 @@ export function PhotoCard({
     : `${caption.slice(0, MAX_CAPTION_LENGTH)}...`;
 
   const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
+  const currentUserId = getCurrentUserId();
 
   const handleUsernameClick = () => {
     if (onNavigate) {
       onNavigate(`/profile/${username}`);
     }
+  };
+
+  const handleCommentAdded = (comment: CommentData) => {
+    setNewComment(comment);
+    setShowComments(true);
   };
 
   return (
@@ -76,11 +89,17 @@ export function PhotoCard({
 
       {/* Photo Image */}
       <div className="photo-card__image-container">
+        {!imageLoaded && (
+          <div className="photo-card__image-loading">
+            <div className="photo-card__spinner" />
+          </div>
+        )}
         <img
           src={imageUrl}
           alt={caption || `Photo by ${username}`}
-          className="photo-card__image"
+          className={`photo-card__image ${imageLoaded ? 'loaded' : 'loading'}`}
           loading="lazy"
+          onLoad={() => setImageLoaded(true)}
         />
       </div>
 
@@ -110,10 +129,32 @@ export function PhotoCard({
             )}
           </div>
         )}
+
+        {/* View Comments Button */}
+        <button
+          className="photo-card__view-comments"
+          onClick={() => setShowComments(!showComments)}
+          aria-label={showComments ? 'Hide comments' : 'View comments'}
+        >
+          {showComments ? 'Hide comments' : 'View comments'}
+        </button>
+
         <time className="photo-card__timestamp" dateTime={createdAt}>
           {timeAgo}
         </time>
       </div>
+
+      {/* Comments Section */}
+      {showComments && (
+        <div className="photo-card__comments">
+          <CommentList
+            photoId={photoId}
+            currentUserId={currentUserId || undefined}
+            newComment={newComment}
+          />
+          <CommentInput photoId={photoId} onCommentAdded={handleCommentAdded} />
+        </div>
+      )}
     </article>
   );
 }

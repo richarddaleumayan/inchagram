@@ -7,9 +7,13 @@ import { Resend } from 'resend';
 
 // Initialize Resend only if API key is provided
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+console.log('🔑 RESEND_API_KEY loaded:', RESEND_API_KEY ? `${RESEND_API_KEY.substring(0, 8)}...` : 'NOT SET');
+
 const resend = RESEND_API_KEY && RESEND_API_KEY !== 'your_resend_api_key_here'
   ? new Resend(RESEND_API_KEY)
   : null;
+
+console.log('📧 Email service initialized:', resend ? 'YES' : 'NO');
 
 // Helper to check if email service is configured
 function checkEmailService(): void {
@@ -28,12 +32,15 @@ export async function sendVerificationEmail(
   username: string,
   verificationToken: string
 ): Promise<void> {
+  console.log('📨 Attempting to send verification email to:', email);
   checkEmailService();
 
   const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${verificationToken}`;
+  console.log('🔗 Verification URL:', verificationUrl);
 
   try {
-    await resend!.emails.send({
+    console.log('📤 Calling Resend API...');
+    const response = await resend!.emails.send({
       from: process.env.EMAIL_FROM || 'Inchagram <onboarding@resend.dev>',
       to: email,
       subject: 'Verify your Inchagram account',
@@ -74,8 +81,9 @@ export async function sendVerificationEmail(
         </html>
       `
     });
+    console.log('✅ Resend API Response:', JSON.stringify(response, null, 2));
   } catch (error) {
-    console.error('Failed to send verification email:', error);
+    console.error('❌ Failed to send verification email:', error);
     throw new Error('Failed to send verification email');
   }
 }

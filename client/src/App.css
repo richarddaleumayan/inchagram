@@ -179,7 +179,8 @@
   }
 
   .app-main {
-    padding: var(--spacing-lg) var(--spacing-sm);
+    padding: 0;
+    max-width: 100%;
   }
 
   .login-container {

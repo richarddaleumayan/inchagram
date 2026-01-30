@@ -4,11 +4,12 @@
  * Stories: US0023 - Personalized Feed API, US0024 - Discovery Feed API
  */
 
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Types } from 'mongoose';
 import { AuthRequest } from '../middleware/authMiddleware';
 import Photo from '../models/Photo';
 import Follow from '../models/Follow';
+import Like from '../models/Like';
 
 /**
  * Populated user data from Photo.populate('userId')
@@ -30,6 +31,9 @@ export async function getPersonalizedFeed(req: AuthRequest, res: Response): Prom
   try {
     const { userId } = req.user!; // Populated by authenticateJWT middleware
 
+    console.log('🔍 FEED: Authenticated userId:', userId);
+    console.log('🔍 FEED: userId type:', typeof userId);
+
     // Parse and validate query parameters
     let page = parseInt(req.query.page as string) || 0;
     let limit = parseInt(req.query.limit as string) || 20;
@@ -42,8 +46,11 @@ export async function getPersonalizedFeed(req: AuthRequest, res: Response): Prom
     const follows = await Follow.find({ followerId: userId }).select('followingId');
     const followingIds = follows.map(f => f.followingId);
 
+    console.log('🔍 FEED: Following', followingIds.length, 'users');
+
     // If not following anyone, return empty feed
     if (followingIds.length === 0) {
+      console.log('🔍 FEED: Not following anyone, returning empty feed');
       res.status(200).json({
         success: true,
         data: {
@@ -67,20 +74,40 @@ export async function getPersonalizedFeed(req: AuthRequest, res: Response): Prom
       .populate('userId', 'username profilePictureUrl') // Populate only needed fields
       .lean(); // Use lean for better performance
 
+    console.log('🔍 FEED: Found', photos.length, 'photos from followed users');
+
     // Get total count for pagination
     const total = await Photo.countDocuments({ userId: { $in: followingIds } });
+
+    // Get user's likes for these photos
+    const photoIds = photos.map(p => p._id);
+
+    console.log('🔍 Feed: Checking likes for user:', userId);
+    console.log('🔍 Feed: Photo IDs:', photoIds.map(id => id.toString()));
+
+    const userLikes = await Like.find({
+      userId: new Types.ObjectId(userId),
+      photoId: { $in: photoIds }
+    }).select('photoId').lean();
+
+    console.log('🔍 Feed: Found', userLikes.length, 'likes');
+    console.log('🔍 Feed: Liked photo IDs:', userLikes.map(l => l.photoId.toString()));
+
+    const likedPhotoIds = new Set(userLikes.map(like => like.photoId.toString()));
 
     // Format response
     const formattedPhotos = photos.map(photo => {
       const user = photo.userId as unknown as PopulatedUser; // Populated user document
+      const photoIdStr = photo._id.toString();
       return {
-        photoId: photo._id.toString(),
+        photoId: photoIdStr,
         imageUrl: photo.imageUrl,
         caption: photo.caption || '',
         userId: user._id.toString(),
         username: user.username,
         profilePictureUrl: user.profilePictureUrl || null,
         likeCount: photo.likeCount,
+        isLiked: likedPhotoIds.has(photoIdStr),
         createdAt: photo.createdAt
       };
     });
@@ -120,8 +147,10 @@ export async function getPersonalizedFeed(req: AuthRequest, res: Response): Prom
  * sorted chronologically (newest first) with pagination support.
  * No authentication required - public endpoint.
  */
-export async function getDiscoveryFeed(req: Request, res: Response): Promise<void> {
+export async function getDiscoveryFeed(req: AuthRequest, res: Response): Promise<void> {
   try {
+    console.log('🔍 DISCOVER: Called with userId:', req.user?.userId);
+
     // Parse and validate query parameters
     let page = parseInt(req.query.page as string) || 0;
     let limit = parseInt(req.query.limit as string) || 20;
@@ -141,17 +170,42 @@ export async function getDiscoveryFeed(req: Request, res: Response): Promise<voi
     // Get total count for pagination
     const total = await Photo.countDocuments({});
 
+    // Get user's likes for these photos (if authenticated)
+    const photoIds = photos.map(p => p._id);
+    let likedPhotoIds = new Set<string>();
+
+    console.log('🔍 DISCOVER: Found', photos.length, 'photos');
+    console.log('🔍 DISCOVER: Photo IDs:', photoIds.map(id => id.toString()));
+
+    if (req.user?.userId) {
+      console.log('🔍 DISCOVER: User authenticated, checking likes for userId:', req.user.userId);
+
+      const userLikes = await Like.find({
+        userId: new Types.ObjectId(req.user.userId),
+        photoId: { $in: photoIds }
+      }).select('photoId').lean();
+
+      console.log('🔍 DISCOVER: Found', userLikes.length, 'likes');
+      console.log('🔍 DISCOVER: Liked photo IDs:', userLikes.map(l => l.photoId.toString()));
+
+      likedPhotoIds = new Set(userLikes.map(like => like.photoId.toString()));
+    } else {
+      console.log('🔍 DISCOVER: No user authenticated, all isLiked will be false');
+    }
+
     // Format response (same logic as personalized feed)
     const formattedPhotos = photos.map(photo => {
       const user = photo.userId as unknown as PopulatedUser; // Populated user document
+      const photoIdStr = photo._id.toString();
       return {
-        photoId: photo._id.toString(),
+        photoId: photoIdStr,
         imageUrl: photo.imageUrl,
         caption: photo.caption || '',
         userId: user._id.toString(),
         username: user.username,
         profilePictureUrl: user.profilePictureUrl || null,
         likeCount: photo.likeCount,
+        isLiked: likedPhotoIds.has(photoIdStr),
         createdAt: photo.createdAt
       };
     });

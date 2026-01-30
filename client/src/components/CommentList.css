@@ -1,0 +1,42 @@
+/**
+ * CommentList Component Styles
+ */
+
+.comment-list {
+  padding: 0 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.comment-list__loading,
+.comment-list__error,
+.comment-list__empty {
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.comment-list__error {
+  color: var(--error);
+}
+
+.comment-list__load-more {
+  width: 100%;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.comment-list__load-more:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+
+.comment-list__load-more:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

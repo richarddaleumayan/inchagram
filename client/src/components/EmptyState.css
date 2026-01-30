@@ -1,6 +1,7 @@
 /**
  * EmptyState Component Styles
  * Story: US0027 - Feed Empty State Handling
+ * Uses design system CSS variables for theming
  */
 
 .empty-state {
@@ -8,58 +9,68 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: var(--spacing-2xl) var(--spacing-lg);
   text-align: center;
-  color: #8e8e8e;
 }
 
 .empty-state__icon {
   font-size: 64px;
-  margin-bottom: 20px;
-  opacity: 0.8;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.9;
 }
 
 .empty-state__title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #262626;
-  margin: 0 0 12px;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm);
 }
 
 .empty-state__message {
-  font-size: 16px;
-  color: #8e8e8e;
-  margin: 0 0 24px;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-xl);
   max-width: 400px;
+  line-height: var(--line-height-relaxed);
 }
 
 .empty-state__action {
-  background: #0095f6;
-  color: white;
+  background-color: var(--accent-primary);
+  color: var(--text-inverse);
   border: none;
-  border-radius: 8px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
 }
 
 .empty-state__action:hover {
-  background: #1877f2;
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .empty-state__action:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .empty-state {
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .empty-state__icon {
+    font-size: 48px;
+  }
+
   .empty-state__title {
-    color: #fafafa;
+    font-size: var(--font-size-xl);
   }
 
   .empty-state__message {
-    color: #a8a8a8;
+    font-size: var(--font-size-sm);
   }
 }
