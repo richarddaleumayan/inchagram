@@ -19,6 +19,7 @@ export interface PhotoCardProps {
   likeCount: number;
   createdAt: string;
   isLiked?: boolean;
+  onNavigate?: (path: string) => void;
 }
 
 export function PhotoCard({
@@ -30,7 +31,8 @@ export function PhotoCard({
   profilePictureUrl,
   likeCount,
   createdAt,
-  isLiked = false
+  isLiked = false,
+  onNavigate
 }: PhotoCardProps) {
   const [showFullCaption, setShowFullCaption] = useState(false);
   const MAX_CAPTION_LENGTH = 200;
@@ -43,8 +45,9 @@ export function PhotoCard({
   const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
 
   const handleUsernameClick = () => {
-    // Navigate to user profile (will be implemented with React Router in US0026)
-    console.log(`Navigate to profile: ${userId}`);
+    if (onNavigate) {
+      onNavigate(`/profile/${username}`);
+    }
   };
 
   return (

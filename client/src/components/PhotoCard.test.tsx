@@ -94,16 +94,24 @@ describe('PhotoCard', () => {
     expect(screen.getByText(/ago/i)).toBeInTheDocument();
   });
 
-  it('handles username click', () => {
-    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  it('handles username click with navigation', () => {
+    const mockNavigate = vi.fn();
 
-    render(<PhotoCard {...mockPhoto} />);
+    render(<PhotoCard {...mockPhoto} onNavigate={mockNavigate} />);
 
     const userButton = screen.getByRole('button', { name: "View testuser's profile" });
     fireEvent.click(userButton);
 
-    expect(consoleSpy).toHaveBeenCalledWith('Navigate to profile: user123');
-    consoleSpy.mockRestore();
+    expect(mockNavigate).toHaveBeenCalledWith('/profile/testuser');
+  });
+
+  it('does not navigate when onNavigate is not provided', () => {
+    render(<PhotoCard {...mockPhoto} />);
+
+    const userButton = screen.getByRole('button', { name: "View testuser's profile" });
+
+    // Should not throw error when clicked without onNavigate
+    expect(() => fireEvent.click(userButton)).not.toThrow();
   });
 
   it('uses lazy loading for image', () => {
