@@ -180,16 +180,29 @@
 
 /* Mobile (portrait phones) */
 @media (max-width: 640px) {
+  .app-header {
+    border-bottom: 1px solid var(--border-color);
+  }
+
   .app-header-content {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-md);
   }
 
   .app-logo {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
+    padding-left: var(--spacing-md);
   }
 
   .app-nav {
-    gap: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    padding-right: var(--spacing-sm);
   }
 
   /* Hide navigation text on mobile, show only icons */
@@ -198,12 +211,36 @@
   }
 
   .nav-btn {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     min-width: auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .nav-btn:hover,
+  .nav-btn:active {
+    background: transparent;
+    transform: scale(0.95);
+  }
+
+  .nav-btn.btn-primary {
+    background: transparent;
+  }
+
+  .nav-btn.btn-primary .nav-icon {
+    opacity: 1;
+    stroke-width: 2.5;
+  }
+
+  .nav-btn.btn-secondary .nav-icon {
+    opacity: 0.6;
   }
 
   .nav-icon {
     margin: 0;
+    width: 24px;
+    height: 24px;
   }
 
   .app-main {
