@@ -15,38 +15,61 @@
   align-items: center;
   justify-content: center;
   min-width: 100px;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--border-color);
+  min-height: 40px;
+  padding: 9px 18px;
+  border: 1.5px solid var(--border-color);
   background: transparent;
   cursor: pointer;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-primary);
-  border-radius: var(--radius-md);
-  transition: background-color 0.2s ease, transform 0.1s ease, opacity 0.2s ease, border-color 0.2s ease;
+  border-radius: 10px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.follow-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.follow-button:active::before {
+  opacity: 1;
 }
 
 .follow-button.not-following {
-  background-color: var(--accent-primary);
-  color: var(--text-inverse);
-  border-color: var(--accent-primary);
+  background: linear-gradient(135deg, #0095f6 0%, #1877f2 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 149, 246, 0.25);
 }
 
 .follow-button.not-following:hover:not(:disabled) {
-  background-color: var(--accent-hover);
-  border-color: var(--accent-hover);
+  background: linear-gradient(135deg, #1877f2 0%, #0095f6 100%);
+  box-shadow: 0 4px 12px rgba(0, 149, 246, 0.35);
   transform: translateY(-1px);
 }
 
 .follow-button.following {
-  background: transparent;
+  background: var(--bg-elevated);
   color: var(--text-primary);
   border-color: var(--border-color);
 }
 
 .follow-button.following:hover:not(:disabled) {
-  background-color: var(--hover-bg);
+  background-color: var(--bg-secondary);
   border-color: var(--text-secondary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .follow-button:focus {
@@ -55,7 +78,7 @@
 }
 
 .follow-button:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .follow-button.loading {
@@ -66,6 +89,7 @@
 .follow-button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+  box-shadow: none;
 }
 
 .follow-error {
@@ -86,8 +110,17 @@
 /* Mobile (portrait phones) */
 @media (max-width: 640px) {
   .follow-button {
-    min-width: 80px;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-xs);
+    min-width: 90px;
+    min-height: 40px;
+    padding: 9px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    touch-action: manipulation;
+  }
+
+  /* Enhanced touch feedback */
+  .follow-button:active:not(:disabled) {
+    transform: scale(0.96);
+    transition: transform 0.1s ease;
   }
 }
