@@ -51,6 +51,20 @@
   gap: var(--spacing-sm);
 }
 
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.nav-icon {
+  flex-shrink: 0;
+}
+
+.nav-text {
+  white-space: nowrap;
+}
+
 /* ============================================
    MAIN CONTENT AREA
    ============================================ */
@@ -176,6 +190,20 @@
 
   .app-nav {
     gap: var(--spacing-xs);
+  }
+
+  /* Hide navigation text on mobile, show only icons */
+  .nav-btn .nav-text {
+    display: none;
+  }
+
+  .nav-btn {
+    padding: var(--spacing-sm);
+    min-width: auto;
+  }
+
+  .nav-icon {
+    margin: 0;
   }
 
   .app-main {

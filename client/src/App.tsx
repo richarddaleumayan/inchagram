@@ -382,27 +382,44 @@ function App() {
           <nav className="app-nav">
             <button
               onClick={() => setActiveView('feed')}
-              className={`btn btn-sm ${activeView === 'feed' ? 'btn-primary' : 'btn-secondary'}`}
+              className={`btn btn-sm nav-btn ${activeView === 'feed' ? 'btn-primary' : 'btn-secondary'}`}
+              aria-label="Feed"
             >
-              Feed
+              <svg className="nav-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 10L10 3L17 10M4 9V17C4 17.5523 4.44772 18 5 18H8V14C8 13.4477 8.44772 13 9 13H11C11.5523 13 12 13.4477 12 14V18H15C15.5523 18 16 17.5523 16 17V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="nav-text">Feed</span>
             </button>
             <button
               onClick={() => setActiveView('upload')}
-              className={`btn btn-sm ${activeView === 'upload' ? 'btn-primary' : 'btn-secondary'}`}
+              className={`btn btn-sm nav-btn ${activeView === 'upload' ? 'btn-primary' : 'btn-secondary'}`}
+              aria-label="Upload"
             >
-              Upload
+              <svg className="nav-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 4V16M4 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+              <span className="nav-text">Upload</span>
             </button>
             {currentUsername && (
               <button
                 onClick={() => navigate(`/profile/${currentUsername}`)}
-                className="btn btn-secondary btn-sm"
+                className="btn btn-secondary btn-sm nav-btn"
+                aria-label="My Profile"
               >
-                My Profile
+                <svg className="nav-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="10" cy="6" r="3" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M4 18C4 14.6863 6.68629 12 10 12C13.3137 12 16 14.6863 16 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+                <span className="nav-text">My Profile</span>
               </button>
             )}
             <ThemeToggle />
-            <button onClick={handleLogout} className="btn btn-secondary btn-sm">
-              Log Out
+            <button onClick={handleLogout} className="btn btn-secondary btn-sm nav-btn" aria-label="Log Out">
+              <svg className="nav-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 4L17 4L17 16L13 16M10 14L14 10L10 6M14 10L3 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="nav-text">Log Out</span>
             </button>
           </nav>
         </div>
