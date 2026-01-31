@@ -6,6 +6,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import Photo from '../models/Photo';
 import Follow from '../models/Follow';
@@ -123,7 +124,6 @@ export async function getUserByUsername(req: Request, res: Response): Promise<vo
     if (authHeader?.startsWith('Bearer ')) {
       try {
         const token = authHeader.substring(7);
-        const jwt = await import('jsonwebtoken');
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
 
         if (decoded.userId) {

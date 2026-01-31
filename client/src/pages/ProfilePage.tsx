@@ -26,7 +26,7 @@ interface ProfileData {
   followerCount: number;
   followingCount: number;
   photoCount: number;
-  isFollowing: boolean;
+  isFollowing?: boolean;
   createdAt: string;
 }
 
@@ -218,13 +218,14 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
                 {!isOwnProfile && (
                   <FollowButton
                     userId={profile.userId}
-                    initialIsFollowing={profile.isFollowing}
+                    initialIsFollowing={profile.isFollowing || false}
                     onFollowChange={(isFollowing) => {
                       // Update follower count optimistically
                       setProfile(prev => {
                         if (!prev) return prev;
                         return {
                           ...prev,
+                          isFollowing,
                           followerCount: isFollowing
                             ? prev.followerCount + 1
                             : prev.followerCount - 1
