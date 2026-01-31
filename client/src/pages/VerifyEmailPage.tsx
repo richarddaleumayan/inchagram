@@ -5,6 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { apiUrl } from '../config/api';
+import { Footer } from '../components/Footer';
 
 interface VerifyEmailPageProps {
   onNavigate: (to: string) => void;
@@ -92,6 +93,7 @@ export function VerifyEmailPage({ onNavigate }: VerifyEmailPageProps) {
           </>
         )}
       </div>
+      <Footer variant="minimal" />
     </div>
   );
 }

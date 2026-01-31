@@ -2,6 +2,16 @@
 
 A simplified, photo-only social media platform focused on core photo sharing without the complexity of modern social networks.
 
+## ⚠️ Legal Disclaimer
+
+**IMPORTANT:** Inchagram is an independent educational and hobby project created for learning purposes only.
+
+- **Not Affiliated:** This project is **not affiliated with, endorsed by, or connected to Instagram, Meta Platforms, Inc., or any of its subsidiaries or affiliates**.
+- **Educational Purpose:** Developed as a personal learning project to practice web development and software engineering.
+- **No Copyright Infringement:** The name "Instagram" and any related trademarks are the property of Meta Platforms, Inc. No copyright or trademark infringement is intended.
+- **Non-Commercial:** This is a non-commercial project for educational and hobby purposes only.
+- **Original Work:** All code, features, and functionality are original implementations.
+
 ## Tech Stack
 
 - **Backend:** Node.js 20 LTS, TypeScript 5.x, Express 4.x
@@ -196,6 +206,10 @@ See `sdlc-studio/` directory for complete documentation.
 ## Contributing
 
 This is a learning project for the inchagram team (Richard, Mark, Ethel, Neildren).
+
+## Legal
+
+**Disclaimer:** Inchagram is an independent educational project. It is not affiliated with, endorsed by, or connected to Instagram, Meta Platforms, Inc., or any of its subsidiaries. The name "Instagram" and related trademarks are the property of Meta Platforms, Inc. No copyright or trademark infringement is intended. This is a non-commercial project created solely for educational and learning purposes.
 
 ## License
 

@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { Logo } from '../components/Logo';
+import { Footer } from '../components/Footer';
 import { apiUrl } from '../config/api';
 
 interface ForgotPasswordPageProps {
@@ -70,6 +71,7 @@ export function ForgotPasswordPage({ onNavigate }: ForgotPasswordPageProps) {
             Back to Login
           </button>
         </div>
+        <Footer variant="minimal" />
       </div>
     );
   }
@@ -120,6 +122,7 @@ export function ForgotPasswordPage({ onNavigate }: ForgotPasswordPageProps) {
           </button>
         </p>
       </div>
+      <Footer variant="minimal" />
     </div>
   );
 }

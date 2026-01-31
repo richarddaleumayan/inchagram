@@ -11,6 +11,7 @@ import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { ThemeToggle } from './components/ThemeToggle';
 import { Logo } from './components/Logo';
+import { Footer } from './components/Footer';
 import { apiUrl } from './config/api';
 import './styles/design-system.css';
 import './App.css';
@@ -275,6 +276,7 @@ function App() {
               Back to Login
             </button>
           </div>
+          <Footer variant="minimal" />
         </div>
       );
     }
@@ -367,6 +369,7 @@ function App() {
             </button>
           </p>
         </div>
+        <Footer variant="minimal" />
       </div>
     );
   }
@@ -408,6 +411,8 @@ function App() {
       <main className="app-main">
         {activeView === 'feed' ? <FeedPage onNavigate={navigate} /> : <PhotoUpload />}
       </main>
+
+      <Footer />
     </div>
   );
 }

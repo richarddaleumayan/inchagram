@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Logo } from '../components/Logo';
+import { Footer } from '../components/Footer';
 import { apiUrl } from '../config/api';
 
 interface ResetPasswordPageProps {
@@ -96,6 +97,7 @@ export function ResetPasswordPage({ onNavigate }: ResetPasswordPageProps) {
             Go to Login
           </button>
         </div>
+        <Footer variant="minimal" />
       </div>
     );
   }
@@ -160,6 +162,7 @@ export function ResetPasswordPage({ onNavigate }: ResetPasswordPageProps) {
           </button>
         </p>
       </div>
+      <Footer variant="minimal" />
     </div>
   );
 }

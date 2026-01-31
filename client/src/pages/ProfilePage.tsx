@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { PhotoGrid } from '../components/PhotoGrid';
 import { EditProfileModal } from '../components/EditProfileModal';
 import { FollowButton } from '../components/FollowButton';
+import { Footer } from '../components/Footer';
 import { apiUrl } from '../config/api';
 import './ProfilePage.css';
 
@@ -253,6 +254,8 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
           onSuccess={handleEditSuccess}
         />
       )}
+
+      <Footer />
     </div>
   );
 }
