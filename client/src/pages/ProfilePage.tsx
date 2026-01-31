@@ -26,6 +26,7 @@ interface ProfileData {
   followerCount: number;
   followingCount: number;
   photoCount: number;
+  isFollowing: boolean;
   createdAt: string;
 }
 
@@ -59,8 +60,15 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
       setProfile(null);
 
       try {
+        const token = localStorage.getItem('token');
+        const headers: HeadersInit = {};
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
         const response = await fetch(
-          apiUrl(`api/v1/users/username/${encodeURIComponent(username)}`)
+          apiUrl(`api/v1/users/username/${encodeURIComponent(username)}`),
+          { headers }
         );
         const data: ProfileResponse = await response.json();
 
@@ -210,10 +218,18 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
                 {!isOwnProfile && (
                   <FollowButton
                     userId={profile.userId}
-                    initialIsFollowing={false}
+                    initialIsFollowing={profile.isFollowing}
                     onFollowChange={(isFollowing) => {
-                      // Optionally update follower count here
-                      console.log('Follow state changed:', isFollowing);
+                      // Update follower count optimistically
+                      setProfile(prev => {
+                        if (!prev) return prev;
+                        return {
+                          ...prev,
+                          followerCount: isFollowing
+                            ? prev.followerCount + 1
+                            : prev.followerCount - 1
+                        };
+                      });
                     }}
                   />
                 )}

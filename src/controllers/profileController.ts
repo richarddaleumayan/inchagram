@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import User from '../models/User';
 import Photo from '../models/Photo';
+import Follow from '../models/Follow';
 import { AuthRequest } from '../middleware/authMiddleware';
 import { validatePhotoFile, getExtensionFromMimeType } from '../utils/validation';
 import { uploadToS3 } from '../services/s3Service';
@@ -51,9 +52,9 @@ export async function getUserById(req: Request, res: Response): Promise<void> {
     // Get photo count for this user
     const photoCount = await Photo.countDocuments({ userId: user._id });
 
-    // TODO: Get follower/following counts when Follow model is available (US0020)
-    const followerCount = 0;
-    const followingCount = 0;
+    // Get follower/following counts
+    const followerCount = await Follow.countDocuments({ followingId: user._id });
+    const followingCount = await Follow.countDocuments({ followerId: user._id });
 
     // Return profile data (never include passwordHash)
     res.status(200).json({
@@ -112,9 +113,30 @@ export async function getUserByUsername(req: Request, res: Response): Promise<vo
     // Get photo count for this user
     const photoCount = await Photo.countDocuments({ userId: user._id });
 
-    // TODO: Get follower/following counts when Follow model is available (US0020)
-    const followerCount = 0;
-    const followingCount = 0;
+    // Get follower/following counts
+    const followerCount = await Follow.countDocuments({ followingId: user._id });
+    const followingCount = await Follow.countDocuments({ followerId: user._id });
+
+    // Check if the current user is following this profile (if authenticated)
+    let isFollowing = false;
+    const authHeader = req.headers.authorization;
+    if (authHeader?.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.substring(7);
+        const jwt = await import('jsonwebtoken');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+
+        if (decoded.userId) {
+          const followDoc = await Follow.findOne({
+            followerId: decoded.userId,
+            followingId: user._id
+          });
+          isFollowing = !!followDoc;
+        }
+      } catch (err) {
+        // If token is invalid, just continue with isFollowing = false
+      }
+    }
 
     // Return profile data (never include passwordHash)
     res.status(200).json({
@@ -129,6 +151,7 @@ export async function getUserByUsername(req: Request, res: Response): Promise<vo
         followerCount,
         followingCount,
         photoCount,
+        isFollowing,
         createdAt: user.createdAt.toISOString()
       }
     });
@@ -356,6 +379,10 @@ export async function updateUser(req: AuthRequest, res: Response): Promise<void>
     // Get photo count
     const photoCount = await Photo.countDocuments({ userId: updatedUser._id });
 
+    // Get follower/following counts
+    const followerCount = await Follow.countDocuments({ followingId: updatedUser._id });
+    const followingCount = await Follow.countDocuments({ followerId: updatedUser._id });
+
     // Return updated profile
     res.status(200).json({
       success: true,
@@ -366,8 +393,8 @@ export async function updateUser(req: AuthRequest, res: Response): Promise<void>
         displayName: updatedUser.displayName || null,
         bio: updatedUser.bio || null,
         profilePictureUrl: updatedUser.profilePictureUrl || null,
-        followerCount: 0, // TODO: Update when Follow counts are available
-        followingCount: 0,
+        followerCount,
+        followingCount,
         photoCount,
         createdAt: updatedUser.createdAt.toISOString()
       }
@@ -498,6 +525,10 @@ export async function updateProfilePicture(req: AuthRequest, res: Response): Pro
     // Get photo count
     const photoCount = await Photo.countDocuments({ userId: updatedUser._id });
 
+    // Get follower/following counts
+    const followerCount = await Follow.countDocuments({ followingId: updatedUser._id });
+    const followingCount = await Follow.countDocuments({ followerId: updatedUser._id });
+
     // Return updated profile
     res.status(200).json({
       success: true,
@@ -508,8 +539,8 @@ export async function updateProfilePicture(req: AuthRequest, res: Response): Pro
         displayName: updatedUser.displayName || null,
         bio: updatedUser.bio || null,
         profilePictureUrl: updatedUser.profilePictureUrl || null,
-        followerCount: 0,
-        followingCount: 0,
+        followerCount,
+        followingCount,
         photoCount,
         createdAt: updatedUser.createdAt.toISOString()
       }
