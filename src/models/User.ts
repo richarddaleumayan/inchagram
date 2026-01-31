@@ -18,6 +18,8 @@ export interface IUser extends Document {
   isVerified: boolean;
   verificationToken?: string;
   verificationTokenExpiry?: Date;
+  passwordResetToken?: string;
+  passwordResetTokenExpiry?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -73,6 +75,14 @@ const userSchema = new Schema<IUser>(
       select: false // Don't include in queries by default
     },
     verificationTokenExpiry: {
+      type: Date,
+      select: false // Don't include in queries by default
+    },
+    passwordResetToken: {
+      type: String,
+      select: false // Don't include in queries by default
+    },
+    passwordResetTokenExpiry: {
       type: Date,
       select: false // Don't include in queries by default
     }

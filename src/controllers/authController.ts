@@ -9,7 +9,7 @@ import crypto from 'crypto';
 import User from '../models/User';
 import { generateToken } from '../services/jwtService';
 import { AuthRequest } from '../middleware/authMiddleware';
-import { sendVerificationEmail } from '../services/emailService';
+import { sendVerificationEmail, sendPasswordResetEmail } from '../services/emailService';
 
 const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS || '10', 10);
 
@@ -446,6 +446,109 @@ export async function getCurrentUser(req: AuthRequest, res: Response): Promise<v
       error: {
         code: 'INTERNAL_ERROR',
         message: 'An error occurred retrieving user profile'
+      }
+    });
+  }
+}
+
+/**
+ * Request password reset
+ * POST /api/v1/auth/forgot-password
+ */
+export async function forgotPassword(req: Request, res: Response): Promise<void> {
+  try {
+    const { email } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
+
+    // Don't reveal if user exists for security (prevents email enumeration)
+    if (!user) {
+      res.status(200).json({
+        success: true,
+        message: 'If an account exists with this email, a password reset link will be sent.'
+      });
+      return;
+    }
+
+    // Generate password reset token (32 bytes hex, 1-hour expiry)
+    const passwordResetToken = crypto.randomBytes(32).toString('hex');
+    const passwordResetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    // Save token to user
+    user.passwordResetToken = passwordResetToken;
+    user.passwordResetTokenExpiry = passwordResetTokenExpiry;
+    await user.save();
+
+    // Send password reset email
+    try {
+      await sendPasswordResetEmail(user.email, user.username, passwordResetToken);
+    } catch (emailError) {
+      console.error('Failed to send password reset email:', emailError);
+      // Don't fail the request if email fails, but log it
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'If an account exists with this email, a password reset link will be sent.'
+    });
+  } catch (error: unknown) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred processing your request'
+      }
+    });
+  }
+}
+
+/**
+ * Reset password with token
+ * POST /api/v1/auth/reset-password
+ */
+export async function resetPassword(req: Request, res: Response): Promise<void> {
+  try {
+    const { token, password } = req.body;
+
+    // Find user with valid (non-expired) reset token
+    const user = await User.findOne({
+      passwordResetToken: token,
+      passwordResetTokenExpiry: { $gt: new Date() }
+    }).select('+passwordResetToken +passwordResetTokenExpiry');
+
+    if (!user) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'INVALID_TOKEN',
+          message: 'Invalid or expired password reset token'
+        }
+      });
+      return;
+    }
+
+    // Hash new password
+    const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+
+    // Update password and clear reset token
+    user.passwordHash = passwordHash;
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpiry = undefined;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successful! You can now log in with your new password.'
+    });
+  } catch (error: unknown) {
+    console.error('Reset password error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'An error occurred resetting your password'
       }
     });
   }

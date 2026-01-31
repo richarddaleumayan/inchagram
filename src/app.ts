@@ -5,6 +5,7 @@
 
 import express, { Application } from 'express';
 import cors from 'cors';
+import path from 'path';
 import authRoutes from './routes/auth';
 import usersRoutes from './routes/users';
 import photoRoutes from './routes/photos';
@@ -17,6 +18,9 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Serve static assets for emails
+app.use('/assets', express.static(path.join(__dirname, '../public/assets')));
 
 // Health check endpoint
 app.get('/health', (_req, res) => {

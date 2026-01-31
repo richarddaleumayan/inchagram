@@ -24,6 +24,12 @@ function checkEmailService(): void {
   }
 }
 
+// Helper to generate logo URL for emails
+function getLogoUrl(): string {
+  const baseUrl = process.env.API_URL || 'http://localhost:3000';
+  return `${baseUrl}/assets/inchagram_logo_light.png`;
+}
+
 /**
  * Send email verification email
  */
@@ -54,7 +60,7 @@ export async function sendVerificationEmail(
           </head>
           <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="text-align: center; margin-bottom: 40px;">
-              <h1 style="font-family: 'Brush Script MT', cursive; font-size: 48px; margin: 0; color: #2563eb;">inchagram</h1>
+              <img src="${getLogoUrl()}" alt="Inchagram" style="height: 60px; width: auto;" />
             </div>
 
             <div style="background: #f5f5f5; border-radius: 12px; padding: 32px; margin-bottom: 24px;">
@@ -115,7 +121,7 @@ export async function sendPasswordResetEmail(
           </head>
           <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="text-align: center; margin-bottom: 40px;">
-              <h1 style="font-family: 'Brush Script MT', cursive; font-size: 48px; margin: 0; color: #2563eb;">inchagram</h1>
+              <img src="${getLogoUrl()}" alt="Inchagram" style="height: 60px; width: auto;" />
             </div>
 
             <div style="background: #f5f5f5; border-radius: 12px; padding: 32px; margin-bottom: 24px;">

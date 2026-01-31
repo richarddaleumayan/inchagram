@@ -7,6 +7,8 @@ import { PhotoUpload } from './components/PhotoUpload';
 import { FeedPage } from './pages/FeedPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { VerifyEmailPage } from './pages/VerifyEmailPage';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { ThemeToggle } from './components/ThemeToggle';
 import { Logo } from './components/Logo';
 import { apiUrl } from './config/api';
@@ -83,6 +85,16 @@ function App() {
   // Check for verify-email route
   const isVerifyEmailRoute = useMemo(() => {
     return path === '/verify-email' || path.startsWith('/verify-email?');
+  }, [path]);
+
+  // Check for forgot-password route
+  const isForgotPasswordRoute = useMemo(() => {
+    return path === '/forgot-password';
+  }, [path]);
+
+  // Check for reset-password route
+  const isResetPasswordRoute = useMemo(() => {
+    return path === '/reset-password' || path.startsWith('/reset-password?');
   }, [path]);
 
   // Match profile routes
@@ -206,6 +218,16 @@ function App() {
     return <VerifyEmailPage onNavigate={navigate} />;
   }
 
+  // Render forgot-password page (public route)
+  if (isForgotPasswordRoute) {
+    return <ForgotPasswordPage onNavigate={navigate} />;
+  }
+
+  // Render reset-password page (public route)
+  if (isResetPasswordRoute) {
+    return <ResetPasswordPage onNavigate={navigate} />;
+  }
+
   // Render profile page if on profile route
   if (profileUsername) {
     return <ProfilePage username={profileUsername} onNavigate={navigate} />;
@@ -308,6 +330,19 @@ function App() {
                 minLength={authMode === 'register' ? 8 : undefined}
               />
             </div>
+
+            {authMode === 'login' && (
+              <div style={{ textAlign: 'right', marginTop: '-0.5rem', marginBottom: '1rem' }}>
+                <button
+                  type="button"
+                  onClick={() => navigate('/forgot-password')}
+                  className="btn btn-link"
+                  style={{ fontSize: '0.875rem', padding: 0 }}
+                >
+                  Forgot password?
+                </button>
+              </div>
+            )}
 
             {loginError && (
               <div className="alert alert-error">

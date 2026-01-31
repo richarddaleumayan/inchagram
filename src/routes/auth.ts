@@ -4,7 +4,7 @@
  */
 
 import { Router } from 'express';
-import { register, login, getCurrentUser, verifyEmail, resendVerificationEmail } from '../controllers/authController';
+import { register, login, getCurrentUser, verifyEmail, resendVerificationEmail, forgotPassword, resetPassword } from '../controllers/authController';
 import { authenticateJWT } from '../middleware/authMiddleware';
 import {
   validateRequired,
@@ -56,6 +56,26 @@ router.post('/resend-verification',
   validateRequired(['email']),
   validateEmail('email'),
   resendVerificationEmail
+);
+
+/**
+ * POST /api/v1/auth/forgot-password
+ * Request password reset email
+ */
+router.post('/forgot-password',
+  validateRequired(['email']),
+  validateEmail('email'),
+  forgotPassword
+);
+
+/**
+ * POST /api/v1/auth/reset-password
+ * Reset password with token
+ */
+router.post('/reset-password',
+  validateRequired(['token', 'password']),
+  validatePassword('password'),
+  resetPassword
 );
 
 export default router;
