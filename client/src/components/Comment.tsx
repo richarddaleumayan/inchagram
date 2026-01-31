@@ -43,7 +43,7 @@ export function Comment({ comment, currentUserId, onDelete }: CommentProps) {
     setError(null);
 
     try {
-      const response = await fetch(`/api/v1/comments/${comment.commentId}`, {
+      const response = await fetch(apiUrl(`api/v1/comments/${comment.commentId}`), {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

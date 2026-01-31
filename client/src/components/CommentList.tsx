@@ -46,7 +46,7 @@ export function CommentList({ photoId, currentUserId, newComment }: CommentListP
       setError(null);
 
       try {
-        const response = await fetch(`/api/v1/photos/${photoId}/comments?limit=10&offset=0`);
+        const response = await fetch(apiUrl(`api/v1/photos/${photoId}/comments?limit=10&offset=0`));
         const data: GetCommentsResponse = await response.json();
 
         if (response.ok && data.success && data.data) {
@@ -84,7 +84,7 @@ export function CommentList({ photoId, currentUserId, newComment }: CommentListP
 
     try {
       const response = await fetch(
-        `/api/v1/photos/${photoId}/comments?limit=10&offset=${comments.length}`
+        apiUrl(`api/v1/photos/${photoId}/comments?limit=10&offset=${comments.length}`)
       );
       const data: GetCommentsResponse = await response.json();
 

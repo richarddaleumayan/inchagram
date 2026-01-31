@@ -106,7 +106,7 @@ export function PhotoUpload() {
         formData.append('caption', caption.trim());
       }
 
-      const response = await fetch(apiUrl('/api/v1/photos'), {
+      const response = await fetch(apiUrl('api/v1/photos'), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -6,6 +6,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { apiUrl } from '../config/api';
 import './PhotoGrid.css';
 
 interface Photo {
@@ -39,7 +40,7 @@ export function PhotoGrid({ userId, onPhotoClick }: PhotoGridProps) {
 
   const fetchPhotos = async ({ pageParam = 0 }): Promise<PhotoGridResponse> => {
     const response = await fetch(
-      `/api/v1/users/${userId}/photos?page=${pageParam}&limit=20`
+      apiUrl(`api/v1/users/${userId}/photos?page=${pageParam}&limit=20`)
     );
 
     if (!response.ok) {

@@ -87,7 +87,7 @@ export function EditProfileModal({
       }
 
       // Update text fields (display name and bio)
-      const response = await fetch(`/api/v1/users/${userId}`, {
+      const response = await fetch(apiUrl(`api/v1/users/${userId}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ export function EditProfileModal({
         const formData = new FormData();
         formData.append('profilePicture', profilePicture);
 
-        const pictureResponse = await fetch(`/api/v1/users/${userId}/profile-picture`, {
+        const pictureResponse = await fetch(apiUrl(`api/v1/users/${userId}/profile-picture`), {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`

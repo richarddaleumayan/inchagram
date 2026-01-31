@@ -27,7 +27,7 @@ export function VerifyEmailPage({ onNavigate }: VerifyEmailPageProps) {
       }
 
       try {
-        const response = await fetch(apiUrl(`/api/v1/auth/verify-email?token=${token}`));
+        const response = await fetch(apiUrl(`api/v1/auth/verify-email?token=${token}`));
         const data = await response.json();
 
         if (response.ok && data.success) {

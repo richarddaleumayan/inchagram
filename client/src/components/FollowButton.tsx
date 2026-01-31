@@ -55,7 +55,7 @@ export function FollowButton({
     setIsFollowing(newIsFollowing);
 
     try {
-      const response = await fetch(`/api/v1/users/${userId}/follow`, {
+      const response = await fetch(apiUrl(`api/v1/users/${userId}/follow`), {
         method: newIsFollowing ? 'POST' : 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

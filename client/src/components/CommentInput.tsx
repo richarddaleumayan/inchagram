@@ -43,7 +43,7 @@ export function CommentInput({ photoId, onCommentAdded }: CommentInputProps) {
     setError(null);
 
     try {
-      const response = await fetch(`/api/v1/photos/${photoId}/comments`, {
+      const response = await fetch(apiUrl(`api/v1/photos/${photoId}/comments`), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

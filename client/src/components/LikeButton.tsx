@@ -79,7 +79,7 @@ export function LikeButton({
     setLikeCount(newLikeCount);
 
     try {
-      const response = await fetch(`/api/v1/photos/${photoId}/like`, {
+      const response = await fetch(apiUrl(`api/v1/photos/${photoId}/like`), {
         method,
         headers: {
           Authorization: `Bearer ${token}`,

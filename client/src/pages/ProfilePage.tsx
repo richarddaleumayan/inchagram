@@ -59,7 +59,7 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
 
       try {
         const response = await fetch(
-          `/api/v1/users/username/${encodeURIComponent(username)}`
+          apiUrl(`api/v1/users/username/${encodeURIComponent(username)}`)
         );
         const data: ProfileResponse = await response.json();
 
@@ -98,7 +98,7 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
       }
 
       try {
-        const response = await fetch(apiUrl('/api/v1/auth/me'), {
+        const response = await fetch(apiUrl('api/v1/auth/me'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await response.json();
@@ -120,7 +120,7 @@ export function ProfilePage({ username, onNavigate }: ProfilePageProps) {
     const token = localStorage.getItem('token');
     if (!token || !profile) return;
 
-    fetch(`/api/v1/users/username/${encodeURIComponent(username)}`)
+    fetch(apiUrl(`api/v1/users/username/${encodeURIComponent(username)}`))
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) {
